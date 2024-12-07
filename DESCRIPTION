@@ -1,0 +1,19 @@
+Package: SA24204171
+Type: Package
+Title: Generalized Matrix Decompositiom
+Version: 0.1.0
+Author: Jin Zhang
+Maintainer: Jin Zhang <1215114399@qq.com>
+Description: Decompose more predictive components throught weight assisted matrix decomposition.
+License: CC0
+Encoding: UTF-8
+LazyData: true
+Imports: Rcpp (>= 1.0.13)
+Suggests: knitr, rmarkdown
+LinkingTo: Rcpp
+RoxygenNote: 7.3.2
+Depends: R (>= 3.5.0)
+VignetteBuilder: knitr
+Roxygen: list(markdown = TRUE)
+URL: http://github.com/zhangjinustc/SA24204171
+BugReports: http://github.com/zhangjinustc/SA24204171/issues

@@ -1,0 +1,24 @@
+#' @title Economic Indicator Dataset
+#' @name Designmatrix
+#' @description This dataset contains economic indicator data for 120 months, with 125 different economic indicators.
+#' The matrix has 120 rows representing monthly data and 125 columns representing various economic indicators.
+#' This data can be used to analyze trends in economic variables over time.
+#' @format A numeric matrix with 120 rows and 125 columns:
+#' \describe{
+#'   \item{row}{Each row represents data for one month.}
+#'   \item{column}{Each column represents a different economic indicator, such as inflation rate, or unemployment rate.}
+#' }
+#' @source real-world data used for economic modeling and analysis.
+#' @examples
+#' \dontrun{
+#'   # Load the data
+#'   data(Designmatrix)
+#'
+#'   # View the structure of the matrix
+#'   str(Designmatrix)
+#'
+#'   # Perform a simple analysis (e.g., linear model on some economic indicators)
+#'   lm_result <- lm(Designmatrix[,1] ~ Designmatrix[,2] + Designmatrix[,3])
+#'   summary(lm_result)
+#' }
+NULL

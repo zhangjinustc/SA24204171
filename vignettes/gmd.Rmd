@@ -1,0 +1,63 @@
+---
+title: "Generalized Matrix Decompositiom"
+author: "Jin Zhang"
+date: "2024-12-06"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Generalized Matrix Decompositiom}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r}
+library(Rcpp)
+library(SA24204171)
+
+xmatrix <- readRDS("data/Designmatrix.rds")
+X <- as.matrix(xmatrix)
+
+ymatrix <- readRDS("data/Responsevariable.rds")
+Y <- as.matrix(ymatrix)
+
+c <- 0.05
+n <- nrow(X)
+m <- ncol(X)
+
+X_centered <- design_matrix(X,c)
+
+Y_centered <- response_variable(Y,c)
+
+H <- auxiliary_matrix_H(c,n)
+
+Q <- auxiliary_matrix_Q(m)
+
+rank_XTHXQ <- rank_of_XTHXQ(X_centered, H, Q)
+cat(rank_XTHXQ)
+
+k <- 0
+while (k < rank_XTHXQ) {
+  U <- f3(n)
+  V <- f3(m)
+  for (i in 1:100) {
+    old_U <- U
+    old_V <- V
+    F1 <- matrix(0, n, n)
+    diag(F1) <- 1/f1(X_centered %*% Q %*% V, H)
+    U <- F1%*%(X_centered %*% Q %*% V)
+    F2 <- matrix(0, m, m)
+    diag(F2) <- 1/f2(t(X_centered) %*% H %*% U, Q)
+    V <- F2%*%(t(X_centered) %*% H %*% U)
+    if (abs(sum(old_U - U)) < 10^(-10) && abs(sum(old_V - V)) < 10^(-10)) {
+      break
+    }
+  }
+  k <- k + 1
+  cat("\n number of iterations:", k, "\n")
+  sigma <- (t(U) %*% H %*% X_centered %*% Q %*% V)[1, 1]
+  Sigma <- matrix(0, 1, 1)
+  diag(Sigma) <- sigma
+  X_centered <- X_centered - U %*% Sigma %*% t(V)
+  cat("sigma: \n")
+  cat(sigma)
+}
+```

@@ -1,0 +1,23 @@
+#' @title Economic Income Dataset
+#' @name Responsevariable
+#' @description This dataset contains economic income data for 120 months.
+#' The matrix has 120 rows representing monthly economic income values, with 1 column for the income data.
+#' This data can be used for time series analysis of economic income trends.
+#' @format A numeric matrix with 120 rows and 1 column:
+#' \describe{
+#'   \item{row}{Each row represents the economic income for one month.}
+#'   \item{column}{The single column represents the economic income for the corresponding month.}
+#' }
+#' @source real-world data used for economic modeling and analysis.
+#' @examples
+#' \dontrun{
+#'   # Load the data
+#'   data(Responsevariable)
+#'
+#'   # View the structure of the matrix
+#'   str(Responsevariable)
+#'
+#'   # Perform a simple analysis (e.g., time series analysis or linear model)
+#'   plot(Responsevariable, type="l", main="Economic Income Over Time", xlab="Month", ylab="Income")
+#' }
+NULL
