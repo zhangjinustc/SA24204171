@@ -350,26 +350,25 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="fu">library</span>(here)</span></code></pre></div>
 <pre><code>## Warning: package &#39;here&#39; was built under R version 4.4.2</code></pre>
 <pre><code>## here() starts at D:/rproject/SA24204171</code></pre>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>xmatrix <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="fu">here</span>(<span class="st">&quot;vignettes&quot;</span>, <span class="st">&quot;data&quot;</span>, <span class="st">&quot;Designmatrix.rds&quot;</span>))</span>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>xmatrix <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="fu">system.file</span>(<span class="st">&quot;data&quot;</span>, <span class="st">&quot;Designmatrix.rds&quot;</span>, <span class="at">package =</span> <span class="st">&quot;SA24204171&quot;</span>))</span>
 <span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(xmatrix)</span>
-<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a></span>
-<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a>ymatrix <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="fu">here</span>(<span class="st">&quot;vignettes&quot;</span>, <span class="st">&quot;data&quot;</span>, <span class="st">&quot;Responsevariable.rds&quot;</span>))</span>
-<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a>Y <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(ymatrix)</span>
-<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a></span>
-<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a>c <span class="ot">&lt;-</span> <span class="fl">0.05</span></span>
-<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">nrow</span>(X)</span>
-<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">ncol</span>(X)</span>
-<span id="cb6-10"><a href="#cb6-10" tabindex="-1"></a></span>
-<span id="cb6-11"><a href="#cb6-11" tabindex="-1"></a>X_centered <span class="ot">&lt;-</span> <span class="fu">design_matrix</span>(X,c)</span>
-<span id="cb6-12"><a href="#cb6-12" tabindex="-1"></a></span>
-<span id="cb6-13"><a href="#cb6-13" tabindex="-1"></a>Y_centered <span class="ot">&lt;-</span> <span class="fu">response_variable</span>(Y,c)</span>
-<span id="cb6-14"><a href="#cb6-14" tabindex="-1"></a></span>
-<span id="cb6-15"><a href="#cb6-15" tabindex="-1"></a>H <span class="ot">&lt;-</span> <span class="fu">auxiliary_matrix_H</span>(c,n)</span>
-<span id="cb6-16"><a href="#cb6-16" tabindex="-1"></a></span>
-<span id="cb6-17"><a href="#cb6-17" tabindex="-1"></a>Q <span class="ot">&lt;-</span> <span class="fu">auxiliary_matrix_Q</span>(m)</span>
-<span id="cb6-18"><a href="#cb6-18" tabindex="-1"></a></span>
-<span id="cb6-19"><a href="#cb6-19" tabindex="-1"></a>rank_XTHXQ <span class="ot">&lt;-</span> <span class="fu">rank_of_XTHXQ</span>(X_centered, H, Q)</span>
-<span id="cb6-20"><a href="#cb6-20" tabindex="-1"></a><span class="fu">cat</span>(rank_XTHXQ)</span></code></pre></div>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>ymatrix <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="fu">system.file</span>(<span class="st">&quot;data&quot;</span>, <span class="st">&quot;Responsevariable.rds&quot;</span>, <span class="at">package =</span> <span class="st">&quot;SA24204171&quot;</span>))</span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a>Y <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(ymatrix)</span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a></span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a>c <span class="ot">&lt;-</span> <span class="fl">0.05</span></span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">nrow</span>(X)</span>
+<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">ncol</span>(X)</span>
+<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a></span>
+<span id="cb6-10"><a href="#cb6-10" tabindex="-1"></a>X_centered <span class="ot">&lt;-</span> <span class="fu">design_matrix</span>(X,c)</span>
+<span id="cb6-11"><a href="#cb6-11" tabindex="-1"></a></span>
+<span id="cb6-12"><a href="#cb6-12" tabindex="-1"></a>Y_centered <span class="ot">&lt;-</span> <span class="fu">response_variable</span>(Y,c)</span>
+<span id="cb6-13"><a href="#cb6-13" tabindex="-1"></a></span>
+<span id="cb6-14"><a href="#cb6-14" tabindex="-1"></a>H <span class="ot">&lt;-</span> <span class="fu">auxiliary_matrix_H</span>(c,n)</span>
+<span id="cb6-15"><a href="#cb6-15" tabindex="-1"></a></span>
+<span id="cb6-16"><a href="#cb6-16" tabindex="-1"></a>Q <span class="ot">&lt;-</span> <span class="fu">auxiliary_matrix_Q</span>(m)</span>
+<span id="cb6-17"><a href="#cb6-17" tabindex="-1"></a></span>
+<span id="cb6-18"><a href="#cb6-18" tabindex="-1"></a>rank_XTHXQ <span class="ot">&lt;-</span> <span class="fu">rank_of_XTHXQ</span>(X_centered, H, Q)</span>
+<span id="cb6-19"><a href="#cb6-19" tabindex="-1"></a><span class="fu">cat</span>(rank_XTHXQ)</span></code></pre></div>
 <pre><code>## 70</code></pre>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>k <span class="ot">&lt;-</span> <span class="dv">0</span></span>
 <span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a><span class="cf">while</span> (k <span class="sc">&lt;</span> rank_XTHXQ) {</span>
@@ -472,10 +471,10 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 ## 672.0435
 ##  number of iterations: 25 
 ## sigma: 
-## 555.5665
+## 555.565
 ##  number of iterations: 26 
 ## sigma: 
-## 538.8706
+## 538.8722
 ##  number of iterations: 27 
 ## sigma: 
 ## 441.0652
@@ -493,10 +492,10 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 ## 274.8209
 ##  number of iterations: 32 
 ## sigma: 
-## 263.0489
+## 263.052
 ##  number of iterations: 33 
 ## sigma: 
-## 256.8935
+## 256.8904
 ##  number of iterations: 34 
 ## sigma: 
 ## 196.2783
@@ -559,10 +558,10 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 ## 17.20469
 ##  number of iterations: 54 
 ## sigma: 
-## 12.9754
+## 12.97423
 ##  number of iterations: 55 
 ## sigma: 
-## 12.67739
+## 12.67859
 ##  number of iterations: 56 
 ## sigma: 
 ## 10.39463
@@ -595,10 +594,10 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 ## 3.702178
 ##  number of iterations: 66 
 ## sigma: 
-## 3.129631
+## 3.129632
 ##  number of iterations: 67 
 ## sigma: 
-## 3.027303
+## 3.027301
 ##  number of iterations: 68 
 ## sigma: 
 ## 2.806499

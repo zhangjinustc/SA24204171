@@ -2,10 +2,9 @@
 library(Rcpp)
 library(SA24204171)
 library(here)
-xmatrix <- readRDS(here("vignettes", "data", "Designmatrix.rds"))
+xmatrix <- readRDS(system.file("data", "Designmatrix.rds", package = "SA24204171"))
 X <- as.matrix(xmatrix)
-
-ymatrix <- readRDS(here("vignettes", "data", "Responsevariable.rds"))
+ymatrix <- readRDS(system.file("data", "Responsevariable.rds", package = "SA24204171"))
 Y <- as.matrix(ymatrix)
 
 c <- 0.05
