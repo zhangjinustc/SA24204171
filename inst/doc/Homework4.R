@@ -1,0 +1,119 @@
+## -----------------------------------------------------------------------------
+# 设置随机数种子
+set.seed(123)
+
+# Monte Carlo 实验参数
+n <- 1000      # 样本大小
+simulations <- 10000  # 模拟次数
+
+# 计算偏度的函数
+compute_skewness <- function(samples) {
+  n <- length(samples)
+  mean_val <- mean(samples)
+  m3 <- sum((samples - mean_val)^3) / n
+  m2 <- sum((samples - mean_val)^2) / n
+  b1 <- m3^2 / (m2^3)
+  return(sqrt(b1))
+}
+
+# 存储偏度结果
+skewness_values <- numeric(simulations)
+
+# 进行模拟
+for (i in 1:simulations) {
+  samples <- rnorm(n)  # 从标准正态分布中生成样本
+  skewness_values[i] <- compute_skewness(samples)
+}
+
+# 估计所需的分位数
+quantiles_est <- quantile(skewness_values, probs = c(0.025, 0.05, 0.95, 0.975))
+
+# 计算标准误差
+se_est <- sqrt(6 / n)  # 正态近似下的标准误差
+
+# 输出结果
+cat("估计的分位数:\n")
+print(quantiles_est)
+
+cat("\n标准误差:\n")
+print(se_est)
+
+# 比较估计的分位数与标准正态近似的分位数
+normal_quantiles <- qnorm(c(0.025, 0.05, 0.95, 0.975, 0.5), mean = 0, sd = se_est)
+cat("\n正态近似分位数:\n")
+print(normal_quantiles)
+
+
+## -----------------------------------------------------------------------------
+set.seed(123)
+
+# 生成双变量正态分布数据
+n <- 100
+mu <- c(0, 0)
+sigma <- matrix(c(1, 0.8, 0.8, 1), 2, 2)
+data_normal <- MASS::mvrnorm(n, mu, sigma)
+X <- data_normal[, 1]
+Y <- data_normal[, 2]
+
+# 进行Pearson和Spearman检验
+pearson_test <- cor.test(X, Y, method = "pearson")
+spearman_test <- cor.test(X, Y, method = "spearman")
+kendall_test <- cor.test(X, Y, method = "kendall")
+
+# 输出结果
+cat("Pearson p-value:", pearson_test$p.value, "\n")
+cat("Spearman p-value:", spearman_test$p.value, "\n")
+cat("Kendall p-value:", kendall_test$p.value, "\n")
+
+# 生成一个非线性依赖的数据集
+n <- 100
+X <- rnorm(n)
+Y <- ifelse(X > 0, 2 * X + rnorm(n, sd = 0.5), 0.5 * X + rnorm(n, sd = 0.5))
+
+# 进行Pearson和Spearman检验
+pearson_test_alternative <- cor.test(X, Y, method = "pearson")
+spearman_test_alternative <- cor.test(X, Y, method = "spearman")
+kendall_test_alternative <- cor.test(X, Y, method = "kendall")
+
+# 输出结果
+cat("Pearson p-value (alternative):", pearson_test_alternative$p.value, "\n")
+cat("Spearman p-value (alternative):", spearman_test_alternative$p.value, "\n")
+cat("Kendall p-value (alternative):", kendall_test_alternative$p.value, "\n")
+
+# 结果表示在正态分布下，Pearson检验通常表现出更高的功效；而在非线性或非正态的分布中，Spearman或Kendall检验可能更能捕捉变量之间的依赖关系，从而表现出更高的功效。
+
+## -----------------------------------------------------------------------------
+# 零假设是两种功效相同H0：p1=p2；备择假设是两种功效不同H1：p1≠p2。
+
+# 因为在比较两种方法的功效（比例），并且假设样本量足够大（10,000次实验），所以适合使用比例的Z检验。Z检验适合大样本，比例的抽样分布可以用正态分布近似，并且允许比较两个独立比例之间的差异。
+# 我们需要的信息有：样本大小，观察功效，标准误差，Z统计量和临界值等。
+
+# 功效
+p1 <- 0.651
+p2 <- 0.676
+
+# 样本大小
+n1 <- 10000
+n2 <- 10000
+
+# 计算标准误
+SE <- sqrt((p1 * (1 - p1) / n1) + (p2 * (1 - p2) / n2))
+
+# 计算Z统计量
+Z <- (p1 - p2) / SE
+
+# 计算p值（双尾）
+p_value <- 2 * (1 - pnorm(abs(Z)))
+
+# 输出结果
+cat("Z统计量:", Z, "\n")
+cat("p值:", p_value, "\n")
+
+# 检验结果
+if (p_value < 0.05) {
+  cat("拒绝零假设：两种方法的功效存在显著差异。\n")
+} else {
+  cat("未拒绝零假设：两种方法的功效无显著差异。\n")
+}
+
+

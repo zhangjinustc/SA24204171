@@ -1,0 +1,72 @@
+---
+title: "Homework7"
+author: "Jin Zhang"
+date: "2024-12-06"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Homework7}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+# 9.3
+```{r}
+# 设置种子以确保可重复性
+set.seed(123)
+
+# 定义目标分布的概率密度函数（标准Cauchy分布）
+f_cauchy <- function(x) {
+  1 / (pi * (1 + x^2))
+}
+
+# Metropolis-Hastings算法实现
+metropolis_hastings <- function(n, proposal_sd) {
+  samples <- numeric(n)
+  samples[1] <- rnorm(1)  # 初始值从标准正态分布中获取
+  
+  for (i in 2:n) {
+    # 提出一个新样本
+    proposal <- rnorm(1, mean = samples[i - 1], sd = proposal_sd)
+    
+    # 计算接受率
+    acceptance_ratio <- f_cauchy(proposal) / f_cauchy(samples[i - 1])
+    if (runif(1) < acceptance_ratio) {
+      samples[i] <- proposal  # 接受提案
+    } else {
+      samples[i] <- samples[i - 1]  # 拒绝提案，保留上一个样本
+    }
+  }
+  return(samples)
+}
+
+# 生成样本
+n_samples <- 11000  # 总样本数量
+proposal_sd <- 1    # 提议标准差
+samples <- metropolis_hastings(n_samples, proposal_sd)
+
+# 丢弃前1000个样本
+samples <- samples[-(1:1000)]
+
+# 计算生成样本的十分位数
+generated_deciles <- quantile(samples, probs = seq(0, 1, by = 0.1))
+
+# 计算标准Cauchy分布的十分位数
+standard_cauchy_deciles <- qcauchy(seq(0, 1, by = 0.1))
+
+# 输出结果
+cat("生成样本的十分位数:\n")
+print(generated_deciles)
+
+cat("标准Cauchy分布的十分位数:\n")
+print(standard_cauchy_deciles)
+
+# 比较两个十分位数
+comparison <- data.frame(
+  Decile = seq(0, 1, by = 0.1),
+  Generated = generated_deciles,
+  Standard_Cauchy = standard_cauchy_deciles
+)
+
+print(comparison)
+
+```

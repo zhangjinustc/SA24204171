@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<meta name="author" content="Jin Zhang" />
+
+<meta name="date" content="2024-12-06" />
+
+<title>Generalized Matrix Decompositiom</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+
+<style type="text/css">
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Generalized Matrix Decompositiom</h1>
+<h4 class="author">Jin Zhang</h4>
+<h4 class="date">2024-12-06</h4>
+
+
+
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(Rcpp)</span></code></pre></div>
+<pre><code>## Warning: package &#39;Rcpp&#39; was built under R version 4.4.2</code></pre>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">library</span>(SA24204171)</span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>xmatrix <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">&quot;data/Designmatrix.rds&quot;</span>)</span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(xmatrix)</span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a>ymatrix <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">&quot;data/Responsevariable.rds&quot;</span>)</span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a>Y <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(ymatrix)</span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a></span>
+<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a>c <span class="ot">&lt;-</span> <span class="fl">0.05</span></span>
+<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">nrow</span>(X)</span>
+<span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">ncol</span>(X)</span>
+<span id="cb3-12"><a href="#cb3-12" tabindex="-1"></a></span>
+<span id="cb3-13"><a href="#cb3-13" tabindex="-1"></a>X_centered <span class="ot">&lt;-</span> <span class="fu">design_matrix</span>(X,c)</span>
+<span id="cb3-14"><a href="#cb3-14" tabindex="-1"></a></span>
+<span id="cb3-15"><a href="#cb3-15" tabindex="-1"></a>Y_centered <span class="ot">&lt;-</span> <span class="fu">response_variable</span>(Y,c)</span>
+<span id="cb3-16"><a href="#cb3-16" tabindex="-1"></a></span>
+<span id="cb3-17"><a href="#cb3-17" tabindex="-1"></a>H <span class="ot">&lt;-</span> <span class="fu">auxiliary_matrix_H</span>(c,n)</span>
+<span id="cb3-18"><a href="#cb3-18" tabindex="-1"></a></span>
+<span id="cb3-19"><a href="#cb3-19" tabindex="-1"></a>Q <span class="ot">&lt;-</span> <span class="fu">auxiliary_matrix_Q</span>(m)</span>
+<span id="cb3-20"><a href="#cb3-20" tabindex="-1"></a></span>
+<span id="cb3-21"><a href="#cb3-21" tabindex="-1"></a>rank_XTHXQ <span class="ot">&lt;-</span> <span class="fu">rank_of_XTHXQ</span>(X_centered, H, Q)</span>
+<span id="cb3-22"><a href="#cb3-22" tabindex="-1"></a><span class="fu">cat</span>(rank_XTHXQ)</span></code></pre></div>
+<pre><code>## 70</code></pre>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>k <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="cf">while</span> (k <span class="sc">&lt;</span> rank_XTHXQ) {</span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>  U <span class="ot">&lt;-</span> <span class="fu">f3</span>(n)</span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>  V <span class="ot">&lt;-</span> <span class="fu">f3</span>(m)</span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>) {</span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a>    old_U <span class="ot">&lt;-</span> U</span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a>    old_V <span class="ot">&lt;-</span> V</span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a>    F1 <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">0</span>, n, n)</span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a>    <span class="fu">diag</span>(F1) <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">/</span><span class="fu">f1</span>(X_centered <span class="sc">%*%</span> Q <span class="sc">%*%</span> V, H)</span>
+<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a>    U <span class="ot">&lt;-</span> F1<span class="sc">%*%</span>(X_centered <span class="sc">%*%</span> Q <span class="sc">%*%</span> V)</span>
+<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a>    F2 <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">0</span>, m, m)</span>
+<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a>    <span class="fu">diag</span>(F2) <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">/</span><span class="fu">f2</span>(<span class="fu">t</span>(X_centered) <span class="sc">%*%</span> H <span class="sc">%*%</span> U, Q)</span>
+<span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a>    V <span class="ot">&lt;-</span> F2<span class="sc">%*%</span>(<span class="fu">t</span>(X_centered) <span class="sc">%*%</span> H <span class="sc">%*%</span> U)</span>
+<span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a>    <span class="cf">if</span> (<span class="fu">abs</span>(<span class="fu">sum</span>(old_U <span class="sc">-</span> U)) <span class="sc">&lt;</span> <span class="dv">10</span><span class="sc">^</span>(<span class="sc">-</span><span class="dv">10</span>) <span class="sc">&amp;&amp;</span> <span class="fu">abs</span>(<span class="fu">sum</span>(old_V <span class="sc">-</span> V)) <span class="sc">&lt;</span> <span class="dv">10</span><span class="sc">^</span>(<span class="sc">-</span><span class="dv">10</span>)) {</span>
+<span id="cb5-15"><a href="#cb5-15" tabindex="-1"></a>      <span class="cf">break</span></span>
+<span id="cb5-16"><a href="#cb5-16" tabindex="-1"></a>    }</span>
+<span id="cb5-17"><a href="#cb5-17" tabindex="-1"></a>  }</span>
+<span id="cb5-18"><a href="#cb5-18" tabindex="-1"></a>  k <span class="ot">&lt;-</span> k <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb5-19"><a href="#cb5-19" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">&quot;</span><span class="sc">\n</span><span class="st"> number of iterations:&quot;</span>, k, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb5-20"><a href="#cb5-20" tabindex="-1"></a>  sigma <span class="ot">&lt;-</span> (<span class="fu">t</span>(U) <span class="sc">%*%</span> H <span class="sc">%*%</span> X_centered <span class="sc">%*%</span> Q <span class="sc">%*%</span> V)[<span class="dv">1</span>, <span class="dv">1</span>]</span>
+<span id="cb5-21"><a href="#cb5-21" tabindex="-1"></a>  Sigma <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>)</span>
+<span id="cb5-22"><a href="#cb5-22" tabindex="-1"></a>  <span class="fu">diag</span>(Sigma) <span class="ot">&lt;-</span> sigma</span>
+<span id="cb5-23"><a href="#cb5-23" tabindex="-1"></a>  X_centered <span class="ot">&lt;-</span> X_centered <span class="sc">-</span> U <span class="sc">%*%</span> Sigma <span class="sc">%*%</span> <span class="fu">t</span>(V)</span>
+<span id="cb5-24"><a href="#cb5-24" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">&quot;sigma: </span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb5-25"><a href="#cb5-25" tabindex="-1"></a>  <span class="fu">cat</span>(sigma)</span>
+<span id="cb5-26"><a href="#cb5-26" tabindex="-1"></a>}</span></code></pre></div>
+<pre><code>## 
+##  number of iterations: 1 
+## sigma: 
+## 9217139
+##  number of iterations: 2 
+## sigma: 
+## 5258251
+##  number of iterations: 3 
+## sigma: 
+## 2571901
+##  number of iterations: 4 
+## sigma: 
+## 885085.9
+##  number of iterations: 5 
+## sigma: 
+## 419510.4
+##  number of iterations: 6 
+## sigma: 
+## 197154.8
+##  number of iterations: 7 
+## sigma: 
+## 164209.4
+##  number of iterations: 8 
+## sigma: 
+## 108889.7
+##  number of iterations: 9 
+## sigma: 
+## 66056.08
+##  number of iterations: 10 
+## sigma: 
+## 36418.69
+##  number of iterations: 11 
+## sigma: 
+## 35143.21
+##  number of iterations: 12 
+## sigma: 
+## 26287.61
+##  number of iterations: 13 
+## sigma: 
+## 16083.83
+##  number of iterations: 14 
+## sigma: 
+## 8711.358
+##  number of iterations: 15 
+## sigma: 
+## 6239.075
+##  number of iterations: 16 
+## sigma: 
+## 5812.639
+##  number of iterations: 17 
+## sigma: 
+## 3659.07
+##  number of iterations: 18 
+## sigma: 
+## 2040.603
+##  number of iterations: 19 
+## sigma: 
+## 1879.895
+##  number of iterations: 20 
+## sigma: 
+## 1494.743
+##  number of iterations: 21 
+## sigma: 
+## 914.6105
+##  number of iterations: 22 
+## sigma: 
+## 860.7738
+##  number of iterations: 23 
+## sigma: 
+## 742.8788
+##  number of iterations: 24 
+## sigma: 
+## 672.0435
+##  number of iterations: 25 
+## sigma: 
+## 555.5651
+##  number of iterations: 26 
+## sigma: 
+## 538.872
+##  number of iterations: 27 
+## sigma: 
+## 441.0652
+##  number of iterations: 28 
+## sigma: 
+## 420.7242
+##  number of iterations: 29 
+## sigma: 
+## 374.3102
+##  number of iterations: 30 
+## sigma: 
+## 315.6852
+##  number of iterations: 31 
+## sigma: 
+## 274.8209
+##  number of iterations: 32 
+## sigma: 
+## 263.052
+##  number of iterations: 33 
+## sigma: 
+## 256.8904
+##  number of iterations: 34 
+## sigma: 
+## 196.2783
+##  number of iterations: 35 
+## sigma: 
+## 181.3849
+##  number of iterations: 36 
+## sigma: 
+## 162.0643
+##  number of iterations: 37 
+## sigma: 
+## 145.576
+##  number of iterations: 38 
+## sigma: 
+## 138.9059
+##  number of iterations: 39 
+## sigma: 
+## 117.5171
+##  number of iterations: 40 
+## sigma: 
+## 98.68765
+##  number of iterations: 41 
+## sigma: 
+## 82.10497
+##  number of iterations: 42 
+## sigma: 
+## 73.10446
+##  number of iterations: 43 
+## sigma: 
+## 67.95037
+##  number of iterations: 44 
+## sigma: 
+## 62.07157
+##  number of iterations: 45 
+## sigma: 
+## 54.74556
+##  number of iterations: 46 
+## sigma: 
+## 50.0157
+##  number of iterations: 47 
+## sigma: 
+## 45.64521
+##  number of iterations: 48 
+## sigma: 
+## 39.87746
+##  number of iterations: 49 
+## sigma: 
+## 32.85887
+##  number of iterations: 50 
+## sigma: 
+## 28.36741
+##  number of iterations: 51 
+## sigma: 
+## 22.13151
+##  number of iterations: 52 
+## sigma: 
+## 19.96945
+##  number of iterations: 53 
+## sigma: 
+## 17.20469
+##  number of iterations: 54 
+## sigma: 
+## 12.97526
+##  number of iterations: 55 
+## sigma: 
+## 12.67754
+##  number of iterations: 56 
+## sigma: 
+## 10.39463
+##  number of iterations: 57 
+## sigma: 
+## 9.004692
+##  number of iterations: 58 
+## sigma: 
+## 7.269692
+##  number of iterations: 59 
+## sigma: 
+## 6.455384
+##  number of iterations: 60 
+## sigma: 
+## 5.92096
+##  number of iterations: 61 
+## sigma: 
+## 5.507491
+##  number of iterations: 62 
+## sigma: 
+## 5.034436
+##  number of iterations: 63 
+## sigma: 
+## 4.103497
+##  number of iterations: 64 
+## sigma: 
+## 3.862536
+##  number of iterations: 65 
+## sigma: 
+## 3.702178
+##  number of iterations: 66 
+## sigma: 
+## 3.129632
+##  number of iterations: 67 
+## sigma: 
+## 3.027301
+##  number of iterations: 68 
+## sigma: 
+## 2.806499
+##  number of iterations: 69 
+## sigma: 
+## 2.24851
+##  number of iterations: 70 
+## sigma: 
+## 1.944358</code></pre>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

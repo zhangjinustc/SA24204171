@@ -1,0 +1,1281 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<meta name="author" content="Jin Zhang" />
+
+<meta name="date" content="2024-12-06" />
+
+<title>Homework9</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+
+<style type="text/css">
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Homework9</h1>
+<h4 class="author">Jin Zhang</h4>
+<h4 class="date">2024-12-06</h4>
+
+
+
+<div id="section" class="section level1">
+<h1>11.7</h1>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(lpSolve)</span></code></pre></div>
+<pre><code>## Warning: package &#39;lpSolve&#39; was built under R version 4.4.2</code></pre>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="co"># 定义目标函数系数</span></span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>objective <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">2</span>, <span class="dv">9</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a><span class="co"># 定义约束矩阵（每一行对应一个约束条件）</span></span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a><span class="co"># 约束条件为 2x + y + z &lt;= 2 和 x - y + 3z &lt;= 3</span></span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a>constraints <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">1</span>,</span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a>                        <span class="dv">1</span>, <span class="sc">-</span><span class="dv">1</span>, <span class="dv">3</span>), <span class="at">nrow =</span> <span class="dv">2</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a></span>
+<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a><span class="co"># 定义约束条件的右侧值</span></span>
+<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a>rhs <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">3</span>)</span>
+<span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a></span>
+<span id="cb3-12"><a href="#cb3-12" tabindex="-1"></a><span class="co"># 定义约束条件类型</span></span>
+<span id="cb3-13"><a href="#cb3-13" tabindex="-1"></a><span class="co"># &quot;&lt;=&quot; 表示小于等于约束</span></span>
+<span id="cb3-14"><a href="#cb3-14" tabindex="-1"></a>direction <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;&lt;=&quot;</span>, <span class="st">&quot;&lt;=&quot;</span>)</span>
+<span id="cb3-15"><a href="#cb3-15" tabindex="-1"></a></span>
+<span id="cb3-16"><a href="#cb3-16" tabindex="-1"></a><span class="co"># 使用lp函数求解</span></span>
+<span id="cb3-17"><a href="#cb3-17" tabindex="-1"></a>solution <span class="ot">&lt;-</span> <span class="fu">lp</span>(<span class="at">direction =</span> <span class="st">&quot;min&quot;</span>, <span class="at">objective.in =</span> objective, <span class="at">const.mat =</span> constraints, <span class="at">const.dir =</span> direction, <span class="at">const.rhs =</span> rhs)</span>
+<span id="cb3-18"><a href="#cb3-18" tabindex="-1"></a></span>
+<span id="cb3-19"><a href="#cb3-19" tabindex="-1"></a><span class="co"># 输出结果</span></span>
+<span id="cb3-20"><a href="#cb3-20" tabindex="-1"></a>solution<span class="sc">$</span>solution  <span class="co"># 最优解</span></span></code></pre></div>
+<pre><code>## [1] 0 0 0</code></pre>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>solution<span class="sc">$</span>objval    <span class="co"># 最小目标值</span></span></code></pre></div>
+<pre><code>## [1] 0</code></pre>
+</div>
+<div id="for循环" class="section level1">
+<h1>11.1.2.3 (1)for循环</h1>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="co"># 定义公式列表</span></span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>formulas <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>  mpg <span class="sc">~</span> disp,</span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a>  mpg <span class="sc">~</span> <span class="fu">I</span>(<span class="dv">1</span> <span class="sc">/</span> disp),</span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a>  mpg <span class="sc">~</span> disp <span class="sc">+</span> wt,</span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a>  mpg <span class="sc">~</span> <span class="fu">I</span>(<span class="dv">1</span> <span class="sc">/</span> disp) <span class="sc">+</span> wt</span>
+<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a>)</span>
+<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a></span>
+<span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a><span class="co"># 使用for循环拟合线性模型</span></span>
+<span id="cb7-10"><a href="#cb7-10" tabindex="-1"></a>models_for <span class="ot">&lt;-</span> <span class="fu">list</span>()  <span class="co"># 存储拟合结果</span></span>
+<span id="cb7-11"><a href="#cb7-11" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(formulas)) {</span>
+<span id="cb7-12"><a href="#cb7-12" tabindex="-1"></a>  models_for[[i]] <span class="ot">&lt;-</span> <span class="fu">lm</span>(formulas[[i]], <span class="at">data =</span> mtcars)</span>
+<span id="cb7-13"><a href="#cb7-13" tabindex="-1"></a>}</span>
+<span id="cb7-14"><a href="#cb7-14" tabindex="-1"></a></span>
+<span id="cb7-15"><a href="#cb7-15" tabindex="-1"></a><span class="co"># 查看每个模型的摘要</span></span>
+<span id="cb7-16"><a href="#cb7-16" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(models_for)) {</span>
+<span id="cb7-17"><a href="#cb7-17" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">&quot;Model&quot;</span>, i, <span class="st">&quot;summary:</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb7-18"><a href="#cb7-18" tabindex="-1"></a>  <span class="fu">print</span>(<span class="fu">summary</span>(models_for[[i]]))</span>
+<span id="cb7-19"><a href="#cb7-19" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">&quot;</span><span class="sc">\n\n</span><span class="st">&quot;</span>)</span>
+<span id="cb7-20"><a href="#cb7-20" tabindex="-1"></a>}</span></code></pre></div>
+<pre><code>## Model 1 summary:
+## 
+## Call:
+## lm(formula = formulas[[i]], data = mtcars)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -4.8922 -2.2022 -0.9631  1.6272  7.2305 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) 29.599855   1.229720  24.070  &lt; 2e-16 ***
+## disp        -0.041215   0.004712  -8.747 9.38e-10 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 3.251 on 30 degrees of freedom
+## Multiple R-squared:  0.7183, Adjusted R-squared:  0.709 
+## F-statistic: 76.51 on 1 and 30 DF,  p-value: 9.38e-10
+## 
+## 
+## 
+## Model 2 summary:
+## 
+## Call:
+## lm(formula = formulas[[i]], data = mtcars)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -3.7383 -1.8216 -0.0751  1.0487  4.6105 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)   10.7520     0.7994   13.45 3.06e-14 ***
+## I(1/disp)   1557.6739   114.8935   13.56 2.49e-14 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 2.295 on 30 degrees of freedom
+## Multiple R-squared:  0.8597, Adjusted R-squared:  0.855 
+## F-statistic: 183.8 on 1 and 30 DF,  p-value: 2.494e-14
+## 
+## 
+## 
+## Model 3 summary:
+## 
+## Call:
+## lm(formula = formulas[[i]], data = mtcars)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -3.4087 -2.3243 -0.7683  1.7721  6.3484 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) 34.96055    2.16454  16.151 4.91e-16 ***
+## disp        -0.01773    0.00919  -1.929  0.06362 .  
+## wt          -3.35082    1.16413  -2.878  0.00743 ** 
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 2.917 on 29 degrees of freedom
+## Multiple R-squared:  0.7809, Adjusted R-squared:  0.7658 
+## F-statistic: 51.69 on 2 and 29 DF,  p-value: 2.744e-10
+## 
+## 
+## 
+## Model 4 summary:
+## 
+## Call:
+## lm(formula = formulas[[i]], data = mtcars)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -2.7085 -1.5121 -0.6191  1.5142  4.2314 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)   19.0242     3.4520   5.511 6.13e-06 ***
+## I(1/disp)   1142.5600   199.8427   5.717 3.47e-06 ***
+## wt            -1.7976     0.7327  -2.453   0.0204 *  
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 2.124 on 29 degrees of freedom
+## Multiple R-squared:  0.8838, Adjusted R-squared:  0.8758 
+## F-statistic: 110.3 on 2 and 29 DF,  p-value: 2.788e-14</code></pre>
+</div>
+<div id="lapply方法" class="section level1">
+<h1>3 (2)lapply方法</h1>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="co"># 使用lapply()拟合线性模型</span></span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>models_lapply <span class="ot">&lt;-</span> <span class="fu">lapply</span>(formulas, <span class="cf">function</span>(formula) <span class="fu">lm</span>(formula, <span class="at">data =</span> mtcars))</span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a><span class="co"># 查看每个模型的摘要</span></span>
+<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a><span class="fu">lapply</span>(models_lapply, summary)</span></code></pre></div>
+<pre><code>## [[1]]
+## 
+## Call:
+## lm(formula = formula, data = mtcars)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -4.8922 -2.2022 -0.9631  1.6272  7.2305 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) 29.599855   1.229720  24.070  &lt; 2e-16 ***
+## disp        -0.041215   0.004712  -8.747 9.38e-10 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 3.251 on 30 degrees of freedom
+## Multiple R-squared:  0.7183, Adjusted R-squared:  0.709 
+## F-statistic: 76.51 on 1 and 30 DF,  p-value: 9.38e-10
+## 
+## 
+## [[2]]
+## 
+## Call:
+## lm(formula = formula, data = mtcars)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -3.7383 -1.8216 -0.0751  1.0487  4.6105 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)   10.7520     0.7994   13.45 3.06e-14 ***
+## I(1/disp)   1557.6739   114.8935   13.56 2.49e-14 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 2.295 on 30 degrees of freedom
+## Multiple R-squared:  0.8597, Adjusted R-squared:  0.855 
+## F-statistic: 183.8 on 1 and 30 DF,  p-value: 2.494e-14
+## 
+## 
+## [[3]]
+## 
+## Call:
+## lm(formula = formula, data = mtcars)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -3.4087 -2.3243 -0.7683  1.7721  6.3484 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) 34.96055    2.16454  16.151 4.91e-16 ***
+## disp        -0.01773    0.00919  -1.929  0.06362 .  
+## wt          -3.35082    1.16413  -2.878  0.00743 ** 
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 2.917 on 29 degrees of freedom
+## Multiple R-squared:  0.7809, Adjusted R-squared:  0.7658 
+## F-statistic: 51.69 on 2 and 29 DF,  p-value: 2.744e-10
+## 
+## 
+## [[4]]
+## 
+## Call:
+## lm(formula = formula, data = mtcars)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -2.7085 -1.5121 -0.6191  1.5142  4.2314 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)   19.0242     3.4520   5.511 6.13e-06 ***
+## I(1/disp)   1142.5600   199.8427   5.717 3.47e-06 ***
+## wt            -1.7976     0.7327  -2.453   0.0204 *  
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 2.124 on 29 degrees of freedom
+## Multiple R-squared:  0.8838, Adjusted R-squared:  0.8758 
+## F-statistic: 110.3 on 2 and 29 DF,  p-value: 2.788e-14</code></pre>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="co"># 对比结果：for循环通常更直观，但在R语言中，lapply提供了更简洁和函数式编程的方式。</span></span></code></pre></div>
+</div>
+<div id="for" class="section level1">
+<h1>11.1.2.4 (1)for</h1>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="co"># 生成bootstraps列表</span></span>
+<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a>bootstraps <span class="ot">&lt;-</span> <span class="fu">lapply</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="cf">function</span>(i) {</span>
+<span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a>  rows <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(mtcars), <span class="at">rep =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a>  mtcars[rows, ]</span>
+<span id="cb12-5"><a href="#cb12-5" tabindex="-1"></a>})</span>
+<span id="cb12-6"><a href="#cb12-6" tabindex="-1"></a></span>
+<span id="cb12-7"><a href="#cb12-7" tabindex="-1"></a><span class="co"># 使用for循环对每个bootstrap样本拟合线性模型</span></span>
+<span id="cb12-8"><a href="#cb12-8" tabindex="-1"></a>models_for <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb12-9"><a href="#cb12-9" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(bootstraps)) {</span>
+<span id="cb12-10"><a href="#cb12-10" tabindex="-1"></a>  models_for[[i]] <span class="ot">&lt;-</span> <span class="fu">lm</span>(mpg <span class="sc">~</span> disp, <span class="at">data =</span> bootstraps[[i]])</span>
+<span id="cb12-11"><a href="#cb12-11" tabindex="-1"></a>}</span>
+<span id="cb12-12"><a href="#cb12-12" tabindex="-1"></a></span>
+<span id="cb12-13"><a href="#cb12-13" tabindex="-1"></a><span class="co"># 查看每个模型的摘要</span></span>
+<span id="cb12-14"><a href="#cb12-14" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(models_for)) {</span>
+<span id="cb12-15"><a href="#cb12-15" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">&quot;Bootstrap replicate&quot;</span>, i, <span class="st">&quot;summary:</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb12-16"><a href="#cb12-16" tabindex="-1"></a>  <span class="fu">print</span>(<span class="fu">summary</span>(models_for[[i]]))</span>
+<span id="cb12-17"><a href="#cb12-17" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">&quot;</span><span class="sc">\n\n</span><span class="st">&quot;</span>)</span>
+<span id="cb12-18"><a href="#cb12-18" tabindex="-1"></a>}</span></code></pre></div>
+<pre><code>## Bootstrap replicate 1 summary:
+## 
+## Call:
+## lm(formula = mpg ~ disp, data = bootstraps[[i]])
+## 
+## Residuals:
+##    Min     1Q Median     3Q    Max 
+## -5.208 -2.488 -1.423  3.216  6.752 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) 30.623992   1.276749  23.986  &lt; 2e-16 ***
+## disp        -0.045441   0.005396  -8.421 2.13e-09 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 3.351 on 30 degrees of freedom
+## Multiple R-squared:  0.7027, Adjusted R-squared:  0.6928 
+## F-statistic: 70.92 on 1 and 30 DF,  p-value: 2.129e-09
+## 
+## 
+## 
+## Bootstrap replicate 2 summary:
+## 
+## Call:
+## lm(formula = mpg ~ disp, data = bootstraps[[i]])
+## 
+## Residuals:
+##    Min     1Q Median     3Q    Max 
+## -5.396 -2.513 -0.606  3.372  5.693 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) 30.183633   1.194443  25.270  &lt; 2e-16 ***
+## disp        -0.041690   0.004672  -8.923 6.06e-10 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 3.423 on 30 degrees of freedom
+## Multiple R-squared:  0.7263, Adjusted R-squared:  0.7172 
+## F-statistic: 79.63 on 1 and 30 DF,  p-value: 6.058e-10
+## 
+## 
+## 
+## Bootstrap replicate 3 summary:
+## 
+## Call:
+## lm(formula = mpg ~ disp, data = bootstraps[[i]])
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -5.7298 -2.8842 -0.6885  2.8099  6.5103 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) 31.347268   1.236606  25.349  &lt; 2e-16 ***
+## disp        -0.046644   0.005645  -8.263 3.19e-09 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 3.612 on 30 degrees of freedom
+## Multiple R-squared:  0.6947, Adjusted R-squared:  0.6846 
+## F-statistic: 68.27 on 1 and 30 DF,  p-value: 3.187e-09
+## 
+## 
+## 
+## Bootstrap replicate 4 summary:
+## 
+## Call:
+## lm(formula = mpg ~ disp, data = bootstraps[[i]])
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -5.5105 -3.1000  0.4221  3.3111  6.2506 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) 28.662643   1.233392  23.239  &lt; 2e-16 ***
+## disp        -0.031934   0.005369  -5.948 1.61e-06 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 3.394 on 30 degrees of freedom
+## Multiple R-squared:  0.5411, Adjusted R-squared:  0.5258 
+## F-statistic: 35.37 on 1 and 30 DF,  p-value: 1.614e-06
+## 
+## 
+## 
+## Bootstrap replicate 5 summary:
+## 
+## Call:
+## lm(formula = mpg ~ disp, data = bootstraps[[i]])
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -3.5559 -1.6103 -0.6784  0.5695  5.9196 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) 27.054033   1.117239  24.215  &lt; 2e-16 ***
+## disp        -0.033998   0.003751  -9.063  4.3e-10 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 2.609 on 30 degrees of freedom
+## Multiple R-squared:  0.7325, Adjusted R-squared:  0.7236 
+## F-statistic: 82.14 on 1 and 30 DF,  p-value: 4.296e-10
+## 
+## 
+## 
+## Bootstrap replicate 6 summary:
+## 
+## Call:
+## lm(formula = mpg ~ disp, data = bootstraps[[i]])
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -3.9460 -1.8932 -1.0217  0.7927  7.5711 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) 27.558021   1.202895   22.91  &lt; 2e-16 ***
+## disp        -0.034678   0.004469   -7.76 1.17e-08 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 3.043 on 30 degrees of freedom
+## Multiple R-squared:  0.6675, Adjusted R-squared:  0.6564 
+## F-statistic: 60.22 on 1 and 30 DF,  p-value: 1.171e-08
+## 
+## 
+## 
+## Bootstrap replicate 7 summary:
+## 
+## Call:
+## lm(formula = mpg ~ disp, data = bootstraps[[i]])
+## 
+## Residuals:
+##    Min     1Q Median     3Q    Max 
+## -3.011 -2.382 -1.479  2.086  7.061 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) 28.10782    1.09371  25.700  &lt; 2e-16 ***
+## disp        -0.03518    0.00470  -7.485 2.42e-08 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 3.057 on 30 degrees of freedom
+## Multiple R-squared:  0.6513, Adjusted R-squared:  0.6396 
+## F-statistic: 56.03 on 1 and 30 DF,  p-value: 2.417e-08
+## 
+## 
+## 
+## Bootstrap replicate 8 summary:
+## 
+## Call:
+## lm(formula = mpg ~ disp, data = bootstraps[[i]])
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -2.2629 -1.7661 -0.8384  0.1412  6.5597 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) 27.82542    0.99707  27.907  &lt; 2e-16 ***
+## disp        -0.03796    0.00434  -8.747  9.4e-10 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 2.502 on 30 degrees of freedom
+## Multiple R-squared:  0.7183, Adjusted R-squared:  0.7089 
+## F-statistic:  76.5 on 1 and 30 DF,  p-value: 9.395e-10
+## 
+## 
+## 
+## Bootstrap replicate 9 summary:
+## 
+## Call:
+## lm(formula = mpg ~ disp, data = bootstraps[[i]])
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -3.8546 -1.8432 -0.9583  0.6542  8.8495 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) 27.552625   1.177015  23.409  &lt; 2e-16 ***
+## disp        -0.035191   0.005349  -6.579 2.79e-07 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 3.039 on 30 degrees of freedom
+## Multiple R-squared:  0.5907, Adjusted R-squared:  0.577 
+## F-statistic: 43.29 on 1 and 30 DF,  p-value: 2.795e-07
+## 
+## 
+## 
+## Bootstrap replicate 10 summary:
+## 
+## Call:
+## lm(formula = mpg ~ disp, data = bootstraps[[i]])
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -4.4635 -1.5391 -0.8272  1.8242  6.9133 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) 28.34006    0.93677   30.25  &lt; 2e-16 ***
+## disp        -0.03626    0.00351  -10.33 2.14e-11 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 2.58 on 30 degrees of freedom
+## Multiple R-squared:  0.7806, Adjusted R-squared:  0.7732 
+## F-statistic: 106.7 on 1 and 30 DF,  p-value: 2.137e-11</code></pre>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a><span class="co"># 使用for循环我们直接在循环中拟合每个模型，并将结果存储在一个列表中。</span></span></code></pre></div>
+</div>
+<div id="lapply" class="section level1">
+<h1>4 (2)lapply</h1>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a><span class="co"># 定义拟合模型的函数</span></span>
+<span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a>fit_model <span class="ot">&lt;-</span> <span class="cf">function</span>(data) {</span>
+<span id="cb15-3"><a href="#cb15-3" tabindex="-1"></a>  <span class="fu">lm</span>(mpg <span class="sc">~</span> disp, <span class="at">data =</span> data)</span>
+<span id="cb15-4"><a href="#cb15-4" tabindex="-1"></a>}</span>
+<span id="cb15-5"><a href="#cb15-5" tabindex="-1"></a></span>
+<span id="cb15-6"><a href="#cb15-6" tabindex="-1"></a><span class="co"># 使用lapply()对每个bootstrap样本拟合线性模型</span></span>
+<span id="cb15-7"><a href="#cb15-7" tabindex="-1"></a>models_lapply <span class="ot">&lt;-</span> <span class="fu">lapply</span>(bootstraps, fit_model)</span>
+<span id="cb15-8"><a href="#cb15-8" tabindex="-1"></a></span>
+<span id="cb15-9"><a href="#cb15-9" tabindex="-1"></a><span class="co"># 查看每个模型的摘要</span></span>
+<span id="cb15-10"><a href="#cb15-10" tabindex="-1"></a><span class="fu">lapply</span>(models_lapply, summary)</span></code></pre></div>
+<pre><code>## [[1]]
+## 
+## Call:
+## lm(formula = mpg ~ disp, data = data)
+## 
+## Residuals:
+##    Min     1Q Median     3Q    Max 
+## -5.208 -2.488 -1.423  3.216  6.752 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) 30.623992   1.276749  23.986  &lt; 2e-16 ***
+## disp        -0.045441   0.005396  -8.421 2.13e-09 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 3.351 on 30 degrees of freedom
+## Multiple R-squared:  0.7027, Adjusted R-squared:  0.6928 
+## F-statistic: 70.92 on 1 and 30 DF,  p-value: 2.129e-09
+## 
+## 
+## [[2]]
+## 
+## Call:
+## lm(formula = mpg ~ disp, data = data)
+## 
+## Residuals:
+##    Min     1Q Median     3Q    Max 
+## -5.396 -2.513 -0.606  3.372  5.693 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) 30.183633   1.194443  25.270  &lt; 2e-16 ***
+## disp        -0.041690   0.004672  -8.923 6.06e-10 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 3.423 on 30 degrees of freedom
+## Multiple R-squared:  0.7263, Adjusted R-squared:  0.7172 
+## F-statistic: 79.63 on 1 and 30 DF,  p-value: 6.058e-10
+## 
+## 
+## [[3]]
+## 
+## Call:
+## lm(formula = mpg ~ disp, data = data)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -5.7298 -2.8842 -0.6885  2.8099  6.5103 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) 31.347268   1.236606  25.349  &lt; 2e-16 ***
+## disp        -0.046644   0.005645  -8.263 3.19e-09 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 3.612 on 30 degrees of freedom
+## Multiple R-squared:  0.6947, Adjusted R-squared:  0.6846 
+## F-statistic: 68.27 on 1 and 30 DF,  p-value: 3.187e-09
+## 
+## 
+## [[4]]
+## 
+## Call:
+## lm(formula = mpg ~ disp, data = data)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -5.5105 -3.1000  0.4221  3.3111  6.2506 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) 28.662643   1.233392  23.239  &lt; 2e-16 ***
+## disp        -0.031934   0.005369  -5.948 1.61e-06 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 3.394 on 30 degrees of freedom
+## Multiple R-squared:  0.5411, Adjusted R-squared:  0.5258 
+## F-statistic: 35.37 on 1 and 30 DF,  p-value: 1.614e-06
+## 
+## 
+## [[5]]
+## 
+## Call:
+## lm(formula = mpg ~ disp, data = data)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -3.5559 -1.6103 -0.6784  0.5695  5.9196 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) 27.054033   1.117239  24.215  &lt; 2e-16 ***
+## disp        -0.033998   0.003751  -9.063  4.3e-10 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 2.609 on 30 degrees of freedom
+## Multiple R-squared:  0.7325, Adjusted R-squared:  0.7236 
+## F-statistic: 82.14 on 1 and 30 DF,  p-value: 4.296e-10
+## 
+## 
+## [[6]]
+## 
+## Call:
+## lm(formula = mpg ~ disp, data = data)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -3.9460 -1.8932 -1.0217  0.7927  7.5711 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) 27.558021   1.202895   22.91  &lt; 2e-16 ***
+## disp        -0.034678   0.004469   -7.76 1.17e-08 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 3.043 on 30 degrees of freedom
+## Multiple R-squared:  0.6675, Adjusted R-squared:  0.6564 
+## F-statistic: 60.22 on 1 and 30 DF,  p-value: 1.171e-08
+## 
+## 
+## [[7]]
+## 
+## Call:
+## lm(formula = mpg ~ disp, data = data)
+## 
+## Residuals:
+##    Min     1Q Median     3Q    Max 
+## -3.011 -2.382 -1.479  2.086  7.061 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) 28.10782    1.09371  25.700  &lt; 2e-16 ***
+## disp        -0.03518    0.00470  -7.485 2.42e-08 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 3.057 on 30 degrees of freedom
+## Multiple R-squared:  0.6513, Adjusted R-squared:  0.6396 
+## F-statistic: 56.03 on 1 and 30 DF,  p-value: 2.417e-08
+## 
+## 
+## [[8]]
+## 
+## Call:
+## lm(formula = mpg ~ disp, data = data)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -2.2629 -1.7661 -0.8384  0.1412  6.5597 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) 27.82542    0.99707  27.907  &lt; 2e-16 ***
+## disp        -0.03796    0.00434  -8.747  9.4e-10 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 2.502 on 30 degrees of freedom
+## Multiple R-squared:  0.7183, Adjusted R-squared:  0.7089 
+## F-statistic:  76.5 on 1 and 30 DF,  p-value: 9.395e-10
+## 
+## 
+## [[9]]
+## 
+## Call:
+## lm(formula = mpg ~ disp, data = data)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -3.8546 -1.8432 -0.9583  0.6542  8.8495 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) 27.552625   1.177015  23.409  &lt; 2e-16 ***
+## disp        -0.035191   0.005349  -6.579 2.79e-07 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 3.039 on 30 degrees of freedom
+## Multiple R-squared:  0.5907, Adjusted R-squared:  0.577 
+## F-statistic: 43.29 on 1 and 30 DF,  p-value: 2.795e-07
+## 
+## 
+## [[10]]
+## 
+## Call:
+## lm(formula = mpg ~ disp, data = data)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -4.4635 -1.5391 -0.8272  1.8242  6.9133 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) 28.34006    0.93677   30.25  &lt; 2e-16 ***
+## disp        -0.03626    0.00351  -10.33 2.14e-11 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 2.58 on 30 degrees of freedom
+## Multiple R-squared:  0.7806, Adjusted R-squared:  0.7732 
+## F-statistic: 106.7 on 1 and 30 DF,  p-value: 2.137e-11</code></pre>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a><span class="co"># 使用lapply通过事先定义一个函数，我们避免了使用匿名函数，保持代码的清晰性和可重用性。</span></span></code></pre></div>
+</div>
+<div id="for提取r2" class="section level1">
+<h1>11.1.2.5 (1)for提取R^2</h1>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a><span class="co"># 定义计算R2的函数</span></span>
+<span id="cb18-2"><a href="#cb18-2" tabindex="-1"></a>rsq <span class="ot">&lt;-</span> <span class="cf">function</span>(mod) <span class="fu">summary</span>(mod)<span class="sc">$</span>r.squared</span>
+<span id="cb18-3"><a href="#cb18-3" tabindex="-1"></a></span>
+<span id="cb18-4"><a href="#cb18-4" tabindex="-1"></a><span class="co"># 使用for循环拟合线性模型并提取R2值</span></span>
+<span id="cb18-5"><a href="#cb18-5" tabindex="-1"></a>r_squared_for <span class="ot">&lt;-</span> <span class="fu">numeric</span>(<span class="fu">length</span>(models_for))</span>
+<span id="cb18-6"><a href="#cb18-6" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(models_for)) {</span>
+<span id="cb18-7"><a href="#cb18-7" tabindex="-1"></a>  r_squared_for[i] <span class="ot">&lt;-</span> <span class="fu">rsq</span>(models_for[[i]])</span>
+<span id="cb18-8"><a href="#cb18-8" tabindex="-1"></a>}</span>
+<span id="cb18-9"><a href="#cb18-9" tabindex="-1"></a></span>
+<span id="cb18-10"><a href="#cb18-10" tabindex="-1"></a><span class="co"># 输出每个模型的R2值</span></span>
+<span id="cb18-11"><a href="#cb18-11" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;R2 values for each model (using for loop):</span><span class="sc">\n</span><span class="st">&quot;</span>)</span></code></pre></div>
+<pre><code>## R2 values for each model (using for loop):</code></pre>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" tabindex="-1"></a><span class="fu">print</span>(r_squared_for)</span></code></pre></div>
+<pre><code>##  [1] 0.7027208 0.7263435 0.6947275 0.5411061 0.7324735 0.6674615 0.6512685
+##  [8] 0.7183143 0.5906615 0.7805504</code></pre>
+</div>
+<div id="lapply提取r2" class="section level1">
+<h1>5 (2)lapply提取R^2</h1>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" tabindex="-1"></a><span class="co"># 使用lapply()提取每个模型的R2值</span></span>
+<span id="cb22-2"><a href="#cb22-2" tabindex="-1"></a>r_squared_lapply <span class="ot">&lt;-</span> <span class="fu">lapply</span>(models_lapply, rsq)</span>
+<span id="cb22-3"><a href="#cb22-3" tabindex="-1"></a></span>
+<span id="cb22-4"><a href="#cb22-4" tabindex="-1"></a><span class="co"># 输出每个模型的R2值</span></span>
+<span id="cb22-5"><a href="#cb22-5" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;R2 values for each model (using lapply):</span><span class="sc">\n</span><span class="st">&quot;</span>)</span></code></pre></div>
+<pre><code>## R2 values for each model (using lapply):</code></pre>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">unlist</span>(r_squared_lapply))</span></code></pre></div>
+<pre><code>##  [1] 0.7027208 0.7263435 0.6947275 0.5411061 0.7324735 0.6674615 0.6512685
+##  [8] 0.7183143 0.5906615 0.7805504</code></pre>
+</div>
+<div id="section-1" class="section level1">
+<h1>11.2.5.3</h1>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" tabindex="-1"></a><span class="co"># 模拟100次t检验</span></span>
+<span id="cb26-2"><a href="#cb26-2" tabindex="-1"></a>trials <span class="ot">&lt;-</span> <span class="fu">replicate</span>(</span>
+<span id="cb26-3"><a href="#cb26-3" tabindex="-1"></a>  <span class="dv">100</span>,</span>
+<span id="cb26-4"><a href="#cb26-4" tabindex="-1"></a>  <span class="fu">t.test</span>(<span class="fu">rpois</span>(<span class="dv">10</span>, <span class="dv">10</span>), <span class="fu">rpois</span>(<span class="dv">7</span>, <span class="dv">10</span>)),</span>
+<span id="cb26-5"><a href="#cb26-5" tabindex="-1"></a>  <span class="at">simplify =</span> <span class="cn">FALSE</span></span>
+<span id="cb26-6"><a href="#cb26-6" tabindex="-1"></a>)</span>
+<span id="cb26-7"><a href="#cb26-7" tabindex="-1"></a></span>
+<span id="cb26-8"><a href="#cb26-8" tabindex="-1"></a><span class="co"># 第一部分：使用sapply()和匿名函数提取每次试验的p值</span></span>
+<span id="cb26-9"><a href="#cb26-9" tabindex="-1"></a>p_values <span class="ot">&lt;-</span> <span class="fu">sapply</span>(trials, <span class="cf">function</span>(x) x<span class="sc">$</span>p.value)</span>
+<span id="cb26-10"><a href="#cb26-10" tabindex="-1"></a></span>
+<span id="cb26-11"><a href="#cb26-11" tabindex="-1"></a><span class="co"># 输出提取的p值</span></span>
+<span id="cb26-12"><a href="#cb26-12" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;使用sapply()和匿名函数提取的p值：</span><span class="sc">\n</span><span class="st">&quot;</span>)</span></code></pre></div>
+<pre><code>## 使用sapply()和匿名函数提取的p值：</code></pre>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" tabindex="-1"></a><span class="fu">print</span>(p_values)</span></code></pre></div>
+<pre><code>##   [1] 0.840450486 0.189683858 0.061690629 0.600193700 0.859912768 0.913108159
+##   [7] 0.284986963 0.790649888 0.577919640 0.245844991 0.256930605 0.302067758
+##  [13] 0.566877804 0.725662517 0.658463695 0.876825651 0.295772910 0.629980269
+##  [19] 0.426611372 0.421252430 0.634687837 0.312435759 0.649960200 0.311168894
+##  [25] 0.112914353 0.370767244 0.776870714 0.773208199 0.618106010 0.445512845
+##  [31] 0.395083382 0.901973336 0.052656796 0.031539467 0.966266105 0.106318823
+##  [37] 0.508140635 0.343764075 0.321276967 0.972757400 0.862014108 0.174666865
+##  [43] 0.676782412 0.368285114 0.666073988 0.023257416 0.626468149 0.422605601
+##  [49] 0.203497121 0.479755832 0.850871629 0.787385638 0.708599511 0.373180001
+##  [55] 0.808618524 0.308365430 0.842301364 0.270666342 0.558272755 0.007250485
+##  [61] 0.213116845 0.836857671 0.696553989 0.086971138 0.473709420 0.366369425
+##  [67] 0.211266081 0.860579565 0.296007445 0.689594926 0.064277189 0.764491864
+##  [73] 0.272151509 0.118133188 0.811472436 0.949733154 0.652064447 0.287247144
+##  [79] 0.643976044 0.658110914 0.837948917 0.794076099 0.187993345 0.264615648
+##  [85] 0.687120346 0.632176080 0.079704435 0.819135784 0.227959572 0.948172811
+##  [91] 0.201101828 0.026497397 0.700121823 0.154519530 0.728578595 0.931438206
+##  [97] 0.159609888 0.884926576 0.494376095 0.313505807</code></pre>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" tabindex="-1"></a><span class="co"># 第二部分：去除匿名函数，使用[[直接提取p值</span></span>
+<span id="cb30-2"><a href="#cb30-2" tabindex="-1"></a>p_values_no_anon <span class="ot">&lt;-</span> <span class="fu">sapply</span>(trials, <span class="cf">function</span>(x) x[[<span class="st">&quot;p.value&quot;</span>]])</span>
+<span id="cb30-3"><a href="#cb30-3" tabindex="-1"></a></span>
+<span id="cb30-4"><a href="#cb30-4" tabindex="-1"></a><span class="co"># 输出提取的p值</span></span>
+<span id="cb30-5"><a href="#cb30-5" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;</span><span class="sc">\n</span><span class="st">去除匿名函数，使用[[直接提取的p值：</span><span class="sc">\n</span><span class="st">&quot;</span>)</span></code></pre></div>
+<pre><code>## 
+## 去除匿名函数，使用[[直接提取的p值：</code></pre>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" tabindex="-1"></a><span class="fu">print</span>(p_values_no_anon)</span></code></pre></div>
+<pre><code>##   [1] 0.840450486 0.189683858 0.061690629 0.600193700 0.859912768 0.913108159
+##   [7] 0.284986963 0.790649888 0.577919640 0.245844991 0.256930605 0.302067758
+##  [13] 0.566877804 0.725662517 0.658463695 0.876825651 0.295772910 0.629980269
+##  [19] 0.426611372 0.421252430 0.634687837 0.312435759 0.649960200 0.311168894
+##  [25] 0.112914353 0.370767244 0.776870714 0.773208199 0.618106010 0.445512845
+##  [31] 0.395083382 0.901973336 0.052656796 0.031539467 0.966266105 0.106318823
+##  [37] 0.508140635 0.343764075 0.321276967 0.972757400 0.862014108 0.174666865
+##  [43] 0.676782412 0.368285114 0.666073988 0.023257416 0.626468149 0.422605601
+##  [49] 0.203497121 0.479755832 0.850871629 0.787385638 0.708599511 0.373180001
+##  [55] 0.808618524 0.308365430 0.842301364 0.270666342 0.558272755 0.007250485
+##  [61] 0.213116845 0.836857671 0.696553989 0.086971138 0.473709420 0.366369425
+##  [67] 0.211266081 0.860579565 0.296007445 0.689594926 0.064277189 0.764491864
+##  [73] 0.272151509 0.118133188 0.811472436 0.949733154 0.652064447 0.287247144
+##  [79] 0.643976044 0.658110914 0.837948917 0.794076099 0.187993345 0.264615648
+##  [85] 0.687120346 0.632176080 0.079704435 0.819135784 0.227959572 0.948172811
+##  [91] 0.201101828 0.026497397 0.700121823 0.154519530 0.728578595 0.931438206
+##  [97] 0.159609888 0.884926576 0.494376095 0.313505807</code></pre>
+</div>
+<div id="section-2" class="section level1">
+<h1>11.2.5.6</h1>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" tabindex="-1"></a><span class="co"># 实现并行lapply的变体</span></span>
+<span id="cb34-2"><a href="#cb34-2" tabindex="-1"></a>parallel_lapply <span class="ot">&lt;-</span> <span class="cf">function</span>(FUN, ..., <span class="at">simplify =</span> <span class="cn">TRUE</span>, <span class="at">USE.NAMES =</span> <span class="cn">TRUE</span>) {</span>
+<span id="cb34-3"><a href="#cb34-3" tabindex="-1"></a>  <span class="co"># 使用Map并行应用函数</span></span>
+<span id="cb34-4"><a href="#cb34-4" tabindex="-1"></a>  result_list <span class="ot">&lt;-</span> <span class="fu">Map</span>(FUN, ...)</span>
+<span id="cb34-5"><a href="#cb34-5" tabindex="-1"></a>  </span>
+<span id="cb34-6"><a href="#cb34-6" tabindex="-1"></a>  <span class="co"># 使用vapply确保输出为向量或矩阵（根据simplify参数）</span></span>
+<span id="cb34-7"><a href="#cb34-7" tabindex="-1"></a>  <span class="cf">if</span> (simplify) {</span>
+<span id="cb34-8"><a href="#cb34-8" tabindex="-1"></a>    result_vector <span class="ot">&lt;-</span> <span class="fu">vapply</span>(result_list, identity, <span class="at">FUN.VALUE =</span> result_list[[<span class="dv">1</span>]])</span>
+<span id="cb34-9"><a href="#cb34-9" tabindex="-1"></a>    <span class="fu">return</span>(result_vector)</span>
+<span id="cb34-10"><a href="#cb34-10" tabindex="-1"></a>  } <span class="cf">else</span> {</span>
+<span id="cb34-11"><a href="#cb34-11" tabindex="-1"></a>    <span class="fu">return</span>(result_list)</span>
+<span id="cb34-12"><a href="#cb34-12" tabindex="-1"></a>  }</span>
+<span id="cb34-13"><a href="#cb34-13" tabindex="-1"></a>}</span>
+<span id="cb34-14"><a href="#cb34-14" tabindex="-1"></a></span>
+<span id="cb34-15"><a href="#cb34-15" tabindex="-1"></a><span class="co"># 示例函数</span></span>
+<span id="cb34-16"><a href="#cb34-16" tabindex="-1"></a>my_function <span class="ot">&lt;-</span> <span class="cf">function</span>(x, y) {</span>
+<span id="cb34-17"><a href="#cb34-17" tabindex="-1"></a>  <span class="fu">return</span>(x <span class="sc">+</span> y)</span>
+<span id="cb34-18"><a href="#cb34-18" tabindex="-1"></a>}</span>
+<span id="cb34-19"><a href="#cb34-19" tabindex="-1"></a></span>
+<span id="cb34-20"><a href="#cb34-20" tabindex="-1"></a><span class="co"># 测试parallel_lapply函数</span></span>
+<span id="cb34-21"><a href="#cb34-21" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span></span>
+<span id="cb34-22"><a href="#cb34-22" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="dv">6</span><span class="sc">:</span><span class="dv">10</span></span>
+<span id="cb34-23"><a href="#cb34-23" tabindex="-1"></a></span>
+<span id="cb34-24"><a href="#cb34-24" tabindex="-1"></a><span class="co"># 使用parallel_lapply进行并行处理</span></span>
+<span id="cb34-25"><a href="#cb34-25" tabindex="-1"></a>result <span class="ot">&lt;-</span> <span class="fu">parallel_lapply</span>(my_function, x, y)</span>
+<span id="cb34-26"><a href="#cb34-26" tabindex="-1"></a></span>
+<span id="cb34-27"><a href="#cb34-27" tabindex="-1"></a><span class="co"># 输出结果</span></span>
+<span id="cb34-28"><a href="#cb34-28" tabindex="-1"></a><span class="fu">print</span>(result)</span></code></pre></div>
+<pre><code>## [1]  7  9 11 13 15</code></pre>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" tabindex="-1"></a><span class="co"># 我们通过 Map() 并行地处理多个输入，并使用 vapply() 来确保输出的类型一致。</span></span>
+<span id="cb36-2"><a href="#cb36-2" tabindex="-1"></a><span class="co"># 函数接受函数 FUN 和多个输入（通过 ... 传递），并允许用户控制输出是否简化为向量或矩阵。</span></span></code></pre></div>
+</div>
+<div id="section-3" class="section level1">
+<h1>17.5.1.4</h1>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" tabindex="-1"></a><span class="co"># 计算卡方统计量的函数</span></span>
+<span id="cb37-2"><a href="#cb37-2" tabindex="-1"></a>fast_chisq_test <span class="ot">&lt;-</span> <span class="cf">function</span>(x, y) {</span>
+<span id="cb37-3"><a href="#cb37-3" tabindex="-1"></a>  <span class="co"># 检查输入是否为数字或字符型数据</span></span>
+<span id="cb37-4"><a href="#cb37-4" tabindex="-1"></a>  <span class="cf">if</span> (<span class="sc">!</span>(<span class="fu">is.numeric</span>(x) <span class="sc">||</span> <span class="fu">is.factor</span>(x) <span class="sc">||</span> <span class="fu">is.character</span>(x))) {</span>
+<span id="cb37-5"><a href="#cb37-5" tabindex="-1"></a>    <span class="fu">stop</span>(<span class="st">&quot;First input must be a numeric, factor, or character vector.&quot;</span>)</span>
+<span id="cb37-6"><a href="#cb37-6" tabindex="-1"></a>  }</span>
+<span id="cb37-7"><a href="#cb37-7" tabindex="-1"></a>  <span class="cf">if</span> (<span class="sc">!</span>(<span class="fu">is.numeric</span>(y) <span class="sc">||</span> <span class="fu">is.factor</span>(y) <span class="sc">||</span> <span class="fu">is.character</span>(y))) {</span>
+<span id="cb37-8"><a href="#cb37-8" tabindex="-1"></a>    <span class="fu">stop</span>(<span class="st">&quot;Second input must be a numeric, factor, or character vector.&quot;</span>)</span>
+<span id="cb37-9"><a href="#cb37-9" tabindex="-1"></a>  }</span>
+<span id="cb37-10"><a href="#cb37-10" tabindex="-1"></a>  </span>
+<span id="cb37-11"><a href="#cb37-11" tabindex="-1"></a>  <span class="co"># 如果是字符型数据，将其转换为因子型</span></span>
+<span id="cb37-12"><a href="#cb37-12" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">is.character</span>(x)) {</span>
+<span id="cb37-13"><a href="#cb37-13" tabindex="-1"></a>    x <span class="ot">&lt;-</span> <span class="fu">factor</span>(x)</span>
+<span id="cb37-14"><a href="#cb37-14" tabindex="-1"></a>  }</span>
+<span id="cb37-15"><a href="#cb37-15" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">is.character</span>(y)) {</span>
+<span id="cb37-16"><a href="#cb37-16" tabindex="-1"></a>    y <span class="ot">&lt;-</span> <span class="fu">factor</span>(y)</span>
+<span id="cb37-17"><a href="#cb37-17" tabindex="-1"></a>  }</span>
+<span id="cb37-18"><a href="#cb37-18" tabindex="-1"></a>  </span>
+<span id="cb37-19"><a href="#cb37-19" tabindex="-1"></a>  <span class="co"># 创建一个列联表</span></span>
+<span id="cb37-20"><a href="#cb37-20" tabindex="-1"></a>  obs_table <span class="ot">&lt;-</span> <span class="fu">table</span>(x, y)</span>
+<span id="cb37-21"><a href="#cb37-21" tabindex="-1"></a>  </span>
+<span id="cb37-22"><a href="#cb37-22" tabindex="-1"></a>  <span class="co"># 计算期望频数</span></span>
+<span id="cb37-23"><a href="#cb37-23" tabindex="-1"></a>  n <span class="ot">&lt;-</span> <span class="fu">sum</span>(obs_table)  <span class="co"># 总样本数</span></span>
+<span id="cb37-24"><a href="#cb37-24" tabindex="-1"></a>  row_totals <span class="ot">&lt;-</span> <span class="fu">rowSums</span>(obs_table)  <span class="co"># 行总和</span></span>
+<span id="cb37-25"><a href="#cb37-25" tabindex="-1"></a>  col_totals <span class="ot">&lt;-</span> <span class="fu">colSums</span>(obs_table)  <span class="co"># 列总和</span></span>
+<span id="cb37-26"><a href="#cb37-26" tabindex="-1"></a>  expected <span class="ot">&lt;-</span> <span class="fu">outer</span>(row_totals, col_totals, <span class="at">FUN =</span> <span class="st">&quot;*&quot;</span>) <span class="sc">/</span> n  <span class="co"># 期望频数</span></span>
+<span id="cb37-27"><a href="#cb37-27" tabindex="-1"></a>  </span>
+<span id="cb37-28"><a href="#cb37-28" tabindex="-1"></a>  <span class="co"># 计算卡方统计量</span></span>
+<span id="cb37-29"><a href="#cb37-29" tabindex="-1"></a>  chi_squared_stat <span class="ot">&lt;-</span> <span class="fu">sum</span>((obs_table <span class="sc">-</span> expected)<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> expected)</span>
+<span id="cb37-30"><a href="#cb37-30" tabindex="-1"></a>  </span>
+<span id="cb37-31"><a href="#cb37-31" tabindex="-1"></a>  <span class="fu">return</span>(chi_squared_stat)</span>
+<span id="cb37-32"><a href="#cb37-32" tabindex="-1"></a>}</span>
+<span id="cb37-33"><a href="#cb37-33" tabindex="-1"></a></span>
+<span id="cb37-34"><a href="#cb37-34" tabindex="-1"></a><span class="co"># 测试数据</span></span>
+<span id="cb37-35"><a href="#cb37-35" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">4</span>)</span>
+<span id="cb37-36"><a href="#cb37-36" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;B&quot;</span>)</span>
+<span id="cb37-37"><a href="#cb37-37" tabindex="-1"></a></span>
+<span id="cb37-38"><a href="#cb37-38" tabindex="-1"></a><span class="co"># 计算卡方统计量</span></span>
+<span id="cb37-39"><a href="#cb37-39" tabindex="-1"></a>result <span class="ot">&lt;-</span> <span class="fu">fast_chisq_test</span>(x, y)</span>
+<span id="cb37-40"><a href="#cb37-40" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Calculated Chi-square statistic: &quot;</span>, result, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span></code></pre></div>
+<pre><code>## Calculated Chi-square statistic:  2.25</code></pre>
+</div>
+<div id="section-4" class="section level1">
+<h1>17.5.1.5</h1>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" tabindex="-1"></a><span class="co"># 自定义的更快版本的 table 函数</span></span>
+<span id="cb39-2"><a href="#cb39-2" tabindex="-1"></a>fast_table <span class="ot">&lt;-</span> <span class="cf">function</span>(x, y) {</span>
+<span id="cb39-3"><a href="#cb39-3" tabindex="-1"></a>  <span class="co"># 确保 x 和 y 是整数向量</span></span>
+<span id="cb39-4"><a href="#cb39-4" tabindex="-1"></a>  <span class="cf">if</span> (<span class="sc">!</span><span class="fu">is.integer</span>(x)) x <span class="ot">&lt;-</span> <span class="fu">as.integer</span>(x)</span>
+<span id="cb39-5"><a href="#cb39-5" tabindex="-1"></a>  <span class="cf">if</span> (<span class="sc">!</span><span class="fu">is.integer</span>(y)) y <span class="ot">&lt;-</span> <span class="fu">as.integer</span>(y)</span>
+<span id="cb39-6"><a href="#cb39-6" tabindex="-1"></a>  </span>
+<span id="cb39-7"><a href="#cb39-7" tabindex="-1"></a>  <span class="co"># 获取 x 和 y 的唯一值</span></span>
+<span id="cb39-8"><a href="#cb39-8" tabindex="-1"></a>  unique_x <span class="ot">&lt;-</span> <span class="fu">unique</span>(x)</span>
+<span id="cb39-9"><a href="#cb39-9" tabindex="-1"></a>  unique_y <span class="ot">&lt;-</span> <span class="fu">unique</span>(y)</span>
+<span id="cb39-10"><a href="#cb39-10" tabindex="-1"></a>  </span>
+<span id="cb39-11"><a href="#cb39-11" tabindex="-1"></a>  <span class="co"># 创建一个空矩阵来存储频数</span></span>
+<span id="cb39-12"><a href="#cb39-12" tabindex="-1"></a>  count_matrix <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">0</span>, <span class="at">nrow =</span> <span class="fu">length</span>(unique_x), <span class="at">ncol =</span> <span class="fu">length</span>(unique_y))</span>
+<span id="cb39-13"><a href="#cb39-13" tabindex="-1"></a>  </span>
+<span id="cb39-14"><a href="#cb39-14" tabindex="-1"></a>  <span class="co"># 使用索引填充矩阵</span></span>
+<span id="cb39-15"><a href="#cb39-15" tabindex="-1"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">seq_along</span>(x)) {</span>
+<span id="cb39-16"><a href="#cb39-16" tabindex="-1"></a>    row_index <span class="ot">&lt;-</span> <span class="fu">which</span>(unique_x <span class="sc">==</span> x[i])</span>
+<span id="cb39-17"><a href="#cb39-17" tabindex="-1"></a>    col_index <span class="ot">&lt;-</span> <span class="fu">which</span>(unique_y <span class="sc">==</span> y[i])</span>
+<span id="cb39-18"><a href="#cb39-18" tabindex="-1"></a>    count_matrix[row_index, col_index] <span class="ot">&lt;-</span> count_matrix[row_index, col_index] <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb39-19"><a href="#cb39-19" tabindex="-1"></a>  }</span>
+<span id="cb39-20"><a href="#cb39-20" tabindex="-1"></a>  </span>
+<span id="cb39-21"><a href="#cb39-21" tabindex="-1"></a>  <span class="co"># 将结果的矩阵转换为数据框，类似于 table 输出</span></span>
+<span id="cb39-22"><a href="#cb39-22" tabindex="-1"></a>  <span class="fu">dimnames</span>(count_matrix) <span class="ot">&lt;-</span> <span class="fu">list</span>(unique_x, unique_y)</span>
+<span id="cb39-23"><a href="#cb39-23" tabindex="-1"></a>  </span>
+<span id="cb39-24"><a href="#cb39-24" tabindex="-1"></a>  <span class="fu">return</span>(count_matrix)</span>
+<span id="cb39-25"><a href="#cb39-25" tabindex="-1"></a>}</span>
+<span id="cb39-26"><a href="#cb39-26" tabindex="-1"></a></span>
+<span id="cb39-27"><a href="#cb39-27" tabindex="-1"></a><span class="co"># 优化后的卡方检验</span></span>
+<span id="cb39-28"><a href="#cb39-28" tabindex="-1"></a>fast_chisq_test <span class="ot">&lt;-</span> <span class="cf">function</span>(x, y) {</span>
+<span id="cb39-29"><a href="#cb39-29" tabindex="-1"></a>  <span class="co"># 检查输入是否为整数向量</span></span>
+<span id="cb39-30"><a href="#cb39-30" tabindex="-1"></a>  <span class="cf">if</span> (<span class="sc">!</span>(<span class="fu">is.integer</span>(x) <span class="sc">||</span> <span class="fu">is.numeric</span>(x))) <span class="fu">stop</span>(<span class="st">&quot;First input must be an integer or numeric vector.&quot;</span>)</span>
+<span id="cb39-31"><a href="#cb39-31" tabindex="-1"></a>  <span class="cf">if</span> (<span class="sc">!</span>(<span class="fu">is.integer</span>(y) <span class="sc">||</span> <span class="fu">is.numeric</span>(y))) <span class="fu">stop</span>(<span class="st">&quot;Second input must be an integer or numeric vector.&quot;</span>)</span>
+<span id="cb39-32"><a href="#cb39-32" tabindex="-1"></a>  </span>
+<span id="cb39-33"><a href="#cb39-33" tabindex="-1"></a>  <span class="co"># 创建列联表</span></span>
+<span id="cb39-34"><a href="#cb39-34" tabindex="-1"></a>  obs_table <span class="ot">&lt;-</span> <span class="fu">fast_table</span>(x, y)</span>
+<span id="cb39-35"><a href="#cb39-35" tabindex="-1"></a>  </span>
+<span id="cb39-36"><a href="#cb39-36" tabindex="-1"></a>  <span class="co"># 计算期望频数</span></span>
+<span id="cb39-37"><a href="#cb39-37" tabindex="-1"></a>  n <span class="ot">&lt;-</span> <span class="fu">sum</span>(obs_table)  <span class="co"># 总样本数</span></span>
+<span id="cb39-38"><a href="#cb39-38" tabindex="-1"></a>  row_totals <span class="ot">&lt;-</span> <span class="fu">rowSums</span>(obs_table)  <span class="co"># 行总和</span></span>
+<span id="cb39-39"><a href="#cb39-39" tabindex="-1"></a>  col_totals <span class="ot">&lt;-</span> <span class="fu">colSums</span>(obs_table)  <span class="co"># 列总和</span></span>
+<span id="cb39-40"><a href="#cb39-40" tabindex="-1"></a>  expected <span class="ot">&lt;-</span> <span class="fu">outer</span>(row_totals, col_totals, <span class="at">FUN =</span> <span class="st">&quot;*&quot;</span>) <span class="sc">/</span> n  <span class="co"># 期望频数</span></span>
+<span id="cb39-41"><a href="#cb39-41" tabindex="-1"></a>  </span>
+<span id="cb39-42"><a href="#cb39-42" tabindex="-1"></a>  <span class="co"># 计算卡方统计量</span></span>
+<span id="cb39-43"><a href="#cb39-43" tabindex="-1"></a>  chi_squared_stat <span class="ot">&lt;-</span> <span class="fu">sum</span>((obs_table <span class="sc">-</span> expected)<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> expected)</span>
+<span id="cb39-44"><a href="#cb39-44" tabindex="-1"></a>  </span>
+<span id="cb39-45"><a href="#cb39-45" tabindex="-1"></a>  <span class="fu">return</span>(chi_squared_stat)</span>
+<span id="cb39-46"><a href="#cb39-46" tabindex="-1"></a>}</span>
+<span id="cb39-47"><a href="#cb39-47" tabindex="-1"></a></span>
+<span id="cb39-48"><a href="#cb39-48" tabindex="-1"></a><span class="co"># 测试数据</span></span>
+<span id="cb39-49"><a href="#cb39-49" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">as.integer</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">4</span>))</span>
+<span id="cb39-50"><a href="#cb39-50" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">as.integer</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">2</span>))</span>
+<span id="cb39-51"><a href="#cb39-51" tabindex="-1"></a></span>
+<span id="cb39-52"><a href="#cb39-52" tabindex="-1"></a><span class="co"># 计算卡方统计量</span></span>
+<span id="cb39-53"><a href="#cb39-53" tabindex="-1"></a>result <span class="ot">&lt;-</span> <span class="fu">fast_chisq_test</span>(x, y)</span>
+<span id="cb39-54"><a href="#cb39-54" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Calculated Chi-square statistic: &quot;</span>, result, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span></code></pre></div>
+<pre><code>## Calculated Chi-square statistic:  2.25</code></pre>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

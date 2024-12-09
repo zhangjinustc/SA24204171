@@ -1,0 +1,172 @@
+---
+title: "Homework2"
+author: "Jin Zhang"
+date: "2024-12-06"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Homework2}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+# 3.4
+```{r}
+# 生成Rayleigh分布样本的函数
+generate_rayleigh <- function(n, sigma) {
+  U <- runif(n)  # 生成n个均匀分布的随机数
+  X <- sigma * sqrt(-2 * log(U))  # 应用Rayleigh转换公式
+  return(X)
+}
+
+# 绘制直方图并检查模式的函数
+check_rayleigh_mode <- function(n, sigma) {
+  # 生成样本
+  samples <- generate_rayleigh(n, sigma)
+  
+  # 绘制样本的直方图
+  hist(samples, probability = TRUE, breaks = 30, 
+       main = paste("Rayleigh 分布 (σ =", sigma, ")"),
+       xlab = "值", col = "lightblue", border = "black")
+  
+  # 添加理论模式的垂直线
+  abline(v = sigma, col = "red", lwd = 2, lty = 2)
+  
+  # 使用密度估计来估算样本的模式
+  density_est <- density(samples)
+  estimated_mode <- density_est$x[which.max(density_est$y)]
+  
+  # 添加估计模式的垂直线
+  abline(v = estimated_mode, col = "blue", lwd = 2)
+  
+  # 打印理论模式和估计的模式
+  cat("理论模式 (σ):", sigma, "\n")
+  cat("估计的样本模式:", estimated_mode, "\n")
+}
+
+# 样本数量
+n <- 10000
+
+# 不同的sigma值测试
+sigma_values <- c(1, 2, 3)
+
+# 对每个sigma值生成样本并绘制图形
+par(mfrow = c(1, length(sigma_values)))  # 设置绘图网格
+for (sigma in sigma_values) {
+  check_rayleigh_mode(n, sigma)
+}
+```
+
+
+# 3.11
+```{r}
+# 生成正态位置混合模型的样本
+generate_mixture <- function(n, p1, mu1 = 0, sigma1 = 1, mu2 = 3, sigma2 = 1) {
+  # 随机决定样本是从 N(0,1) 还是 N(3,1) 生成
+  component <- rbinom(n, 1, p1)  # 生成0或1，决定选择哪个正态分布
+  # 根据 component 的值，生成相应的正态分布样本
+  samples <- component * rnorm(n, mean = mu1, sd = sigma1) +
+             (1 - component) * rnorm(n, mean = mu2, sd = sigma2)
+  return(samples)
+}
+
+# 绘制样本的直方图并叠加密度曲线
+plot_mixture <- function(n, p1) {
+  # 生成混合模型样本
+  samples <- generate_mixture(n, p1)
+  
+  # 绘制直方图
+  hist(samples, probability = TRUE, breaks = 30, 
+       main = paste("正态混合分布 (p1 =", p1, ")"),
+       xlab = "值", col = "lightblue", border = "black")
+  
+  # 叠加密度曲线
+  lines(density(samples), col = "red", lwd = 2)
+}
+
+# 样本数量
+n <- 1000
+
+# 绘制不同 p1 值的混合分布
+p1_values <- c(0.75, 0.5, 0.25)
+
+# 设置绘图网格
+par(mfrow = c(1, length(p1_values)))
+
+# 对每个 p1 值生成并绘制图形
+for (p1 in p1_values) {
+  plot_mixture(n, p1)
+}
+# 通常，p1接近0或1时混合分布的形状将趋向单峰，因为其中一个正态分布的权重占主导地位。p1接近0.5时，混合分布的两个成分的影响较均匀，可能会出现双峰分布。
+```
+
+
+# 3.20
+```{r}
+# 模拟复合 Poisson-Gamma 过程的函数
+simulate_compound_poisson_gamma <- function(lambda, alpha, beta, t) {
+  # 根据 Poisson 分布模拟事件数 N(t)
+  N_t <- rpois(1, lambda * t)
+  
+  # 如果事件数 N(t) > 0，则生成 N(t) 个 Gamma 分布随机变量
+  if (N_t > 0) {
+    Y <- rgamma(N_t, shape = alpha, rate = beta)  # Gamma 分布
+    X_t <- sum(Y)  # 所有 Gamma 变量的和
+  } else {
+    X_t <- 0  # 如果没有事件发生，X(t) = 0
+  }
+  
+  return(X_t)
+}
+
+# 估算 X(t) 的均值和方差
+estimate_mean_variance <- function(lambda, alpha, beta, t, num_simulations) {
+  # 重复模拟 num_simulations 次，得到结果
+  results <- replicate(num_simulations, simulate_compound_poisson_gamma(lambda, alpha, beta, t))
+  
+  # 计算估计的均值和方差
+  estimated_mean <- mean(results)
+  estimated_variance <- var(results)
+  
+  return(list(mean = estimated_mean, variance = estimated_variance))
+}
+
+# 理论均值和方差
+theoretical_mean_variance <- function(lambda, alpha, beta, t) {
+  mean_theoretical <- lambda * t * (alpha / beta)
+  variance_theoretical <- lambda * t * (alpha * (alpha + 1) / beta^2)
+  
+  return(list(mean = mean_theoretical, variance = variance_theoretical))
+}
+
+# 参数设置
+param_combinations <- list(
+  list(lambda = 2, alpha = 3, beta = 2, t = 10),
+  list(lambda = 5, alpha = 2, beta = 1, t = 10),
+  list(lambda = 3, alpha = 1.5, beta = 2, t = 10)
+)
+
+# 模拟次数
+num_simulations <- 10000
+
+# 对多个参数组合进行仿真和理论对比
+for (params in param_combinations) {
+  lambda <- params$lambda
+  alpha <- params$alpha
+  beta <- params$beta
+  t <- params$t
+  
+  # 估算仿真均值和方差
+  estimated_values <- estimate_mean_variance(lambda, alpha, beta, t, num_simulations)
+  
+  # 计算理论均值和方差
+  theoretical_values <- theoretical_mean_variance(lambda, alpha, beta, t)
+  
+  # 打印结果对比
+  cat("\n参数组合: λ =", lambda, ", α =", alpha, ", β =", beta, ", t =", t, "\n")
+  cat("估计的 X(t) 均值:", estimated_values$mean, "\n")
+  cat("理论 X(t) 均值:", theoretical_values$mean, "\n")
+  cat("估计的 X(t) 方差:", estimated_values$variance, "\n")
+  cat("理论 X(t) 方差:", theoretical_values$variance, "\n")
+}
+
+```

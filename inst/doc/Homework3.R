@@ -1,0 +1,190 @@
+## -----------------------------------------------------------------------------
+# Monte Carlo 估计 Beta(3, 3) CDF 的函数
+monte_carlo_beta_cdf <- function(x, n) {
+  # 生成 n 个 Beta(3, 3) 分布的随机样本
+  samples <- rbeta(n, shape1 = 3, shape2 = 3)
+  
+  # 计算小于等于 x 的样本比例
+  estimate <- mean(samples <= x)
+  
+  return(estimate)
+}
+
+# 设置模拟次数
+n_simulations <- 10000
+
+# 计算 x = 0.1, 0.2, ..., 0.9 的 CDF 估计
+x_values <- seq(0.1, 0.9, by = 0.1)
+monte_carlo_estimates <- sapply(x_values, monte_carlo_beta_cdf, n = n_simulations)
+
+# 使用 pbeta 计算理论值
+theoretical_values <- pbeta(x_values, shape1 = 3, shape2 = 3)
+
+# 输出结果进行比较
+results <- data.frame(x = x_values, Monte_Carlo_Estimate = monte_carlo_estimates, 
+                      Theoretical_Value = theoretical_values)
+
+print(results)
+
+
+## -----------------------------------------------------------------------------
+set.seed(1234)
+# 生成 Rayleigh(σ) 分布样本的函数
+generate_rayleigh_samples <- function(sigma, n) {
+  # 生成 n 个均匀分布的随机数
+  u <- runif(n)
+  
+  # 使用对偶变量法生成 Rayleigh 样本
+  x1 <- sigma * sqrt(-2 * log(u))
+  x2 <- sigma * sqrt(-2 * log(1 - u))
+  
+  # 返回样本
+  return(c(x1, x2))
+}
+
+# 计算方差减少百分比的函数
+calculate_variance_reduction <- function(sigma, n) {
+  # 生成独立样本
+  X1 <- generate_rayleigh_samples(sigma, n)
+  X2 <- generate_rayleigh_samples(sigma, n)
+  
+  # 计算独立样本的平均值和方差
+  mean_independent <- (X1 + X2) / 2
+  variance_independent <- var(mean_independent)
+  
+  # 使用对偶变量生成样本
+  X <- generate_rayleigh_samples(sigma, n)
+  # 计算对偶样本的平均值
+  mean_antithetic <- (X + rev(X)) / 2  # 使用对偶变量
+  variance_antithetic <- var(mean_antithetic)
+  
+  # 计算方差减少的百分比
+  percent_reduction <- (variance_independent - variance_antithetic) / variance_independent * 100
+  
+  return(list(
+    variance_independent = variance_independent,
+    variance_antithetic = variance_antithetic,
+    percent_reduction = percent_reduction
+  ))
+}
+
+# 设置参数
+sigma <- 1  # Rayleigh 分布的参数
+n <- 1000   # 样本数量
+
+# 计算方差减少百分比
+result <- calculate_variance_reduction(sigma, n)
+
+# 打印结果
+cat("独立样本的方差:", result$variance_independent, "\n")
+cat("对偶变量样本的方差:", result$variance_antithetic, "\n")
+cat("方差减少百分比:", result$percent_reduction, "%\n")
+
+
+## -----------------------------------------------------------------------------
+# 加载必要的库
+library(ggplot2)
+
+# 定义 g(x)
+g <- function(x) {
+  return((x^2 / sqrt(2 * pi)) * exp(-x^2 / 2))
+}
+
+# 重要性函数 f1 (截断的标准正态分布)
+f1 <- function(x, mu = 3, sigma = 1) {
+  return(ifelse(x > 1, dnorm(x, mean = mu, sd = sigma), 0))
+}
+
+# 重要性函数 f2 (伽马分布)
+f2 <- function(x, shape = 3, rate = 1) {
+  return(ifelse(x > 1, dgamma(x, shape = shape, rate = rate), 0))
+}
+
+# 使用重要性采样估计积分
+importance_sampling <- function(n, f, g) {
+  samples <- numeric(n)
+  
+  # 生成样本
+  if (identical(f, f1)) {
+    # 从截断正态分布中采样
+    samples <- rnorm(n, mean = 3, sd = 1)
+  } else if (identical(f, f2)) {
+    # 从伽马分布中采样
+    samples <- rgamma(n, shape = 3, rate = 1)
+  }
+  
+  # 计算估计值
+  # 确保 f(samples) 不为零
+  f_values <- f(samples)
+  f_values[f_values == 0] <- .Machine$double.eps  # 将零替换为一个小值
+  estimate <- mean(g(samples) / f_values)
+  return(estimate)
+}
+
+# 设置样本数量
+n <- 10000
+
+# 估计值
+estimate_f1 <- importance_sampling(n, f1, g)
+estimate_f2 <- importance_sampling(n, f2, g)
+
+# 打印结果
+cat("使用 f1 的估计值:", estimate_f1, "\n")
+cat("使用 f2 的估计值:", estimate_f2, "\n")
+
+# 在这两者中，f1会产生更小的方差来估计积分，因为它更接近目标函数的形状，尤其在x较大的区域。此外，f1能够在目标函数的主要贡献区域内提供更多的权重，这通常会导致更有效的方差减少。选择与目标分布形状相似的分布通常会提高重要性采样的效率。
+
+## -----------------------------------------------------------------------------
+# 设置随机数种子
+set.seed(123)
+
+# 快速排序函数
+quick_sort <- function(x) {
+  if (length(x) <= 1) return(x)
+  pivot <- x[1]
+  left <- x[x < pivot]
+  middle <- x[x == pivot]
+  right <- x[x > pivot]
+  return(c(quick_sort(left), middle, quick_sort(right)))
+}
+
+# 计算平均计算时间
+compute_time <- function(n, simulations = 100) {
+  times <- numeric(simulations)
+  
+  for (i in 1:simulations) {
+    random_numbers <- sample(1:n)
+    start_time <- Sys.time()
+    quick_sort(random_numbers)
+    end_time <- Sys.time()
+    times[i] <- as.numeric(end_time - start_time)
+  }
+  
+  return(mean(times))
+}
+
+# 设置 n 的值
+n_values <- c(10^4, 2 * 10^4, 4 * 10^4, 6 * 10^4, 8 * 10^4)
+avg_times <- numeric(length(n_values))
+
+# 计算每个 n 的平均计算时间
+for (i in 1:length(n_values)) {
+  avg_times[i] <- compute_time(n_values[i])
+}
+
+# 计算 tn
+tn_values <- n_values * log(n_values)
+
+# 线性回归
+model <- lm(avg_times ~ tn_values)
+
+# 绘图
+plot(tn_values, avg_times, main = "Average Computation Time vs. n log(n)",
+     xlab = "n log(n)", ylab = "Average Computation Time (seconds)",
+     pch = 19, col = "blue")
+abline(model, col = "red")
+
+# 输出回归模型结果
+summary(model)
+
+
