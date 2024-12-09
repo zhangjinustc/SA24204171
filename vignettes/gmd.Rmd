@@ -12,11 +12,11 @@ vignette: >
 ```{r}
 library(Rcpp)
 library(SA24204171)
-
-xmatrix <- readRDS("data/Designmatrix.rds")
+library(here)
+xmatrix <- readRDS(here("vignettes", "data", "Designmatrix.rds"))
 X <- as.matrix(xmatrix)
 
-ymatrix <- readRDS("data/Responsevariable.rds")
+ymatrix <- readRDS(here("vignettes", "data", "Responsevariable.rds"))
 Y <- as.matrix(ymatrix)
 
 c <- 0.05
