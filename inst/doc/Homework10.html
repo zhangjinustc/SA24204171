@@ -448,8 +448,8 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <span id="cb7-12"><a href="#cb7-12" tabindex="-1"></a><span class="fu">print</span>(time_comparison)</span></code></pre></div>
 <pre><code>## Unit: microseconds
 ##           expr    min     lq    mean median     uq    max neval
-##  Gibbs_Sampler 2579.9 2586.6 2743.51 2643.6 2704.5 3443.4    10
-##     R_Function  232.0  235.9  248.37  241.7  257.6  289.7    10</code></pre>
+##  Gibbs_Sampler 2552.2 2605.6 2729.54 2684.8 2876.2 3069.2    10
+##     R_Function  222.4  224.9  232.24  227.2  241.0  260.3    10</code></pre>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="co"># QQ 图显示两种方法生成的样本分布非常接近，验证了自定义 Gibbs 采样器的准确性。</span></span>
 <span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a><span class="co"># 自定义 Gibbs 采样器比 R 的原生函数慢，主要原因是 Gibbs采样器需要逐步迭代生成样本，而原生函数直接生成。</span></span>
 <span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a><span class="co"># 自定义 Gibbs 采样器灵活，可扩展到复杂的联合分布，但效率较低。在处理简单联合分布时，优先使用 R 的内置函数以提高效率。</span></span></code></pre></div>

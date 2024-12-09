@@ -350,263 +350,66 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="fu">library</span>(here)</span></code></pre></div>
 <pre><code>## Warning: package &#39;here&#39; was built under R version 4.4.2</code></pre>
 <pre><code>## here() starts at D:/rproject/SA24204171</code></pre>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>xmatrix <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="fu">system.file</span>(<span class="st">&quot;data&quot;</span>, <span class="st">&quot;Designmatrix.rds&quot;</span>, <span class="at">package =</span> <span class="st">&quot;SA24204171&quot;</span>))</span>
-<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(xmatrix)</span>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="co"># 读取数据</span></span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>xmatrix <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="fu">system.file</span>(<span class="st">&quot;data&quot;</span>, <span class="st">&quot;Designmatrix.rds&quot;</span>, <span class="at">package =</span> <span class="st">&quot;SA24204171&quot;</span>))</span>
 <span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>ymatrix <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="fu">system.file</span>(<span class="st">&quot;data&quot;</span>, <span class="st">&quot;Responsevariable.rds&quot;</span>, <span class="at">package =</span> <span class="st">&quot;SA24204171&quot;</span>))</span>
-<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a>Y <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(ymatrix)</span>
-<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a></span>
-<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a>c <span class="ot">&lt;-</span> <span class="fl">0.05</span></span>
-<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">nrow</span>(X)</span>
-<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">ncol</span>(X)</span>
-<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a></span>
-<span id="cb6-10"><a href="#cb6-10" tabindex="-1"></a>X_centered <span class="ot">&lt;-</span> <span class="fu">design_matrix</span>(X,c)</span>
-<span id="cb6-11"><a href="#cb6-11" tabindex="-1"></a></span>
-<span id="cb6-12"><a href="#cb6-12" tabindex="-1"></a>Y_centered <span class="ot">&lt;-</span> <span class="fu">response_variable</span>(Y,c)</span>
-<span id="cb6-13"><a href="#cb6-13" tabindex="-1"></a></span>
-<span id="cb6-14"><a href="#cb6-14" tabindex="-1"></a>H <span class="ot">&lt;-</span> <span class="fu">auxiliary_matrix_H</span>(c,n)</span>
-<span id="cb6-15"><a href="#cb6-15" tabindex="-1"></a></span>
-<span id="cb6-16"><a href="#cb6-16" tabindex="-1"></a>Q <span class="ot">&lt;-</span> <span class="fu">auxiliary_matrix_Q</span>(m)</span>
-<span id="cb6-17"><a href="#cb6-17" tabindex="-1"></a></span>
-<span id="cb6-18"><a href="#cb6-18" tabindex="-1"></a>rank_XTHXQ <span class="ot">&lt;-</span> <span class="fu">rank_of_XTHXQ</span>(X_centered, H, Q)</span>
-<span id="cb6-19"><a href="#cb6-19" tabindex="-1"></a><span class="fu">cat</span>(rank_XTHXQ)</span></code></pre></div>
-<pre><code>## 70</code></pre>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>k <span class="ot">&lt;-</span> <span class="dv">0</span></span>
-<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a><span class="cf">while</span> (k <span class="sc">&lt;</span> rank_XTHXQ) {</span>
-<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>  U <span class="ot">&lt;-</span> <span class="fu">f3</span>(n)</span>
-<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a>  V <span class="ot">&lt;-</span> <span class="fu">f3</span>(m)</span>
-<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>) {</span>
-<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a>    old_U <span class="ot">&lt;-</span> U</span>
-<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a>    old_V <span class="ot">&lt;-</span> V</span>
-<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a>    F1 <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">0</span>, n, n)</span>
-<span id="cb8-9"><a href="#cb8-9" tabindex="-1"></a>    <span class="fu">diag</span>(F1) <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">/</span><span class="fu">f1</span>(X_centered <span class="sc">%*%</span> Q <span class="sc">%*%</span> V, H)</span>
-<span id="cb8-10"><a href="#cb8-10" tabindex="-1"></a>    U <span class="ot">&lt;-</span> F1<span class="sc">%*%</span>(X_centered <span class="sc">%*%</span> Q <span class="sc">%*%</span> V)</span>
-<span id="cb8-11"><a href="#cb8-11" tabindex="-1"></a>    F2 <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">0</span>, m, m)</span>
-<span id="cb8-12"><a href="#cb8-12" tabindex="-1"></a>    <span class="fu">diag</span>(F2) <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">/</span><span class="fu">f2</span>(<span class="fu">t</span>(X_centered) <span class="sc">%*%</span> H <span class="sc">%*%</span> U, Q)</span>
-<span id="cb8-13"><a href="#cb8-13" tabindex="-1"></a>    V <span class="ot">&lt;-</span> F2<span class="sc">%*%</span>(<span class="fu">t</span>(X_centered) <span class="sc">%*%</span> H <span class="sc">%*%</span> U)</span>
-<span id="cb8-14"><a href="#cb8-14" tabindex="-1"></a>    <span class="cf">if</span> (<span class="fu">abs</span>(<span class="fu">sum</span>(old_U <span class="sc">-</span> U)) <span class="sc">&lt;</span> <span class="dv">10</span><span class="sc">^</span>(<span class="sc">-</span><span class="dv">10</span>) <span class="sc">&amp;&amp;</span> <span class="fu">abs</span>(<span class="fu">sum</span>(old_V <span class="sc">-</span> V)) <span class="sc">&lt;</span> <span class="dv">10</span><span class="sc">^</span>(<span class="sc">-</span><span class="dv">10</span>)) {</span>
-<span id="cb8-15"><a href="#cb8-15" tabindex="-1"></a>      <span class="cf">break</span></span>
-<span id="cb8-16"><a href="#cb8-16" tabindex="-1"></a>    }</span>
-<span id="cb8-17"><a href="#cb8-17" tabindex="-1"></a>  }</span>
-<span id="cb8-18"><a href="#cb8-18" tabindex="-1"></a>  k <span class="ot">&lt;-</span> k <span class="sc">+</span> <span class="dv">1</span></span>
-<span id="cb8-19"><a href="#cb8-19" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">&quot;</span><span class="sc">\n</span><span class="st"> number of iterations:&quot;</span>, k, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
-<span id="cb8-20"><a href="#cb8-20" tabindex="-1"></a>  sigma <span class="ot">&lt;-</span> (<span class="fu">t</span>(U) <span class="sc">%*%</span> H <span class="sc">%*%</span> X_centered <span class="sc">%*%</span> Q <span class="sc">%*%</span> V)[<span class="dv">1</span>, <span class="dv">1</span>]</span>
-<span id="cb8-21"><a href="#cb8-21" tabindex="-1"></a>  Sigma <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>)</span>
-<span id="cb8-22"><a href="#cb8-22" tabindex="-1"></a>  <span class="fu">diag</span>(Sigma) <span class="ot">&lt;-</span> sigma</span>
-<span id="cb8-23"><a href="#cb8-23" tabindex="-1"></a>  X_centered <span class="ot">&lt;-</span> X_centered <span class="sc">-</span> U <span class="sc">%*%</span> Sigma <span class="sc">%*%</span> <span class="fu">t</span>(V)</span>
-<span id="cb8-24"><a href="#cb8-24" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">&quot;sigma: </span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
-<span id="cb8-25"><a href="#cb8-25" tabindex="-1"></a>  <span class="fu">cat</span>(sigma)</span>
-<span id="cb8-26"><a href="#cb8-26" tabindex="-1"></a>}</span></code></pre></div>
-<pre><code>## 
-##  number of iterations: 1 
-## sigma: 
-## 9217139
-##  number of iterations: 2 
-## sigma: 
-## 5258251
-##  number of iterations: 3 
-## sigma: 
-## 2571901
-##  number of iterations: 4 
-## sigma: 
-## 885085.9
-##  number of iterations: 5 
-## sigma: 
-## 419510.4
-##  number of iterations: 6 
-## sigma: 
-## 197154.8
-##  number of iterations: 7 
-## sigma: 
-## 164209.4
-##  number of iterations: 8 
-## sigma: 
-## 108889.7
-##  number of iterations: 9 
-## sigma: 
-## 66056.08
-##  number of iterations: 10 
-## sigma: 
-## 36418.7
-##  number of iterations: 11 
-## sigma: 
-## 35143.2
-##  number of iterations: 12 
-## sigma: 
-## 26287.61
-##  number of iterations: 13 
-## sigma: 
-## 16083.83
-##  number of iterations: 14 
-## sigma: 
-## 8711.358
-##  number of iterations: 15 
-## sigma: 
-## 6239.075
-##  number of iterations: 16 
-## sigma: 
-## 5812.639
-##  number of iterations: 17 
-## sigma: 
-## 3659.07
-##  number of iterations: 18 
-## sigma: 
-## 2040.603
-##  number of iterations: 19 
-## sigma: 
-## 1879.895
-##  number of iterations: 20 
-## sigma: 
-## 1494.743
-##  number of iterations: 21 
-## sigma: 
-## 914.6105
-##  number of iterations: 22 
-## sigma: 
-## 860.7738
-##  number of iterations: 23 
-## sigma: 
-## 742.8788
-##  number of iterations: 24 
-## sigma: 
-## 672.0435
-##  number of iterations: 25 
-## sigma: 
-## 555.565
-##  number of iterations: 26 
-## sigma: 
-## 538.8722
-##  number of iterations: 27 
-## sigma: 
-## 441.0652
-##  number of iterations: 28 
-## sigma: 
-## 420.7242
-##  number of iterations: 29 
-## sigma: 
-## 374.3102
-##  number of iterations: 30 
-## sigma: 
-## 315.6852
-##  number of iterations: 31 
-## sigma: 
-## 274.8209
-##  number of iterations: 32 
-## sigma: 
-## 263.052
-##  number of iterations: 33 
-## sigma: 
-## 256.8904
-##  number of iterations: 34 
-## sigma: 
-## 196.2783
-##  number of iterations: 35 
-## sigma: 
-## 181.3849
-##  number of iterations: 36 
-## sigma: 
-## 162.0643
-##  number of iterations: 37 
-## sigma: 
-## 145.576
-##  number of iterations: 38 
-## sigma: 
-## 138.9059
-##  number of iterations: 39 
-## sigma: 
-## 117.5171
-##  number of iterations: 40 
-## sigma: 
-## 98.68765
-##  number of iterations: 41 
-## sigma: 
-## 82.10497
-##  number of iterations: 42 
-## sigma: 
-## 73.10446
-##  number of iterations: 43 
-## sigma: 
-## 67.95037
-##  number of iterations: 44 
-## sigma: 
-## 62.07157
-##  number of iterations: 45 
-## sigma: 
-## 54.74556
-##  number of iterations: 46 
-## sigma: 
-## 50.0157
-##  number of iterations: 47 
-## sigma: 
-## 45.64521
-##  number of iterations: 48 
-## sigma: 
-## 39.87746
-##  number of iterations: 49 
-## sigma: 
-## 32.85887
-##  number of iterations: 50 
-## sigma: 
-## 28.36741
-##  number of iterations: 51 
-## sigma: 
-## 22.13151
-##  number of iterations: 52 
-## sigma: 
-## 19.96945
-##  number of iterations: 53 
-## sigma: 
-## 17.20469
-##  number of iterations: 54 
-## sigma: 
-## 12.97423
-##  number of iterations: 55 
-## sigma: 
-## 12.67859
-##  number of iterations: 56 
-## sigma: 
-## 10.39463
-##  number of iterations: 57 
-## sigma: 
-## 9.004692
-##  number of iterations: 58 
-## sigma: 
-## 7.269692
-##  number of iterations: 59 
-## sigma: 
-## 6.455384
-##  number of iterations: 60 
-## sigma: 
-## 5.92096
-##  number of iterations: 61 
-## sigma: 
-## 5.507491
-##  number of iterations: 62 
-## sigma: 
-## 5.034436
-##  number of iterations: 63 
-## sigma: 
-## 4.103497
-##  number of iterations: 64 
-## sigma: 
-## 3.862536
-##  number of iterations: 65 
-## sigma: 
-## 3.702178
-##  number of iterations: 66 
-## sigma: 
-## 3.129632
-##  number of iterations: 67 
-## sigma: 
-## 3.027301
-##  number of iterations: 68 
-## sigma: 
-## 2.806499
-##  number of iterations: 69 
-## sigma: 
-## 2.24851
-##  number of iterations: 70 
-## sigma: 
-## 1.944358</code></pre>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a></span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a><span class="co"># 检查是否有缺失值</span></span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">any</span>(<span class="fu">is.na</span>(xmatrix), <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) {</span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a>  <span class="fu">stop</span>(<span class="st">&quot;Designmatrix contains missing values!&quot;</span>)</span>
+<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a>}</span>
+<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">any</span>(<span class="fu">is.na</span>(ymatrix), <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) {</span>
+<span id="cb6-10"><a href="#cb6-10" tabindex="-1"></a>  <span class="fu">stop</span>(<span class="st">&quot;Responsevariable contains missing values!&quot;</span>)</span>
+<span id="cb6-11"><a href="#cb6-11" tabindex="-1"></a>}</span>
+<span id="cb6-12"><a href="#cb6-12" tabindex="-1"></a></span>
+<span id="cb6-13"><a href="#cb6-13" tabindex="-1"></a><span class="co"># 转换为矩阵</span></span>
+<span id="cb6-14"><a href="#cb6-14" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(xmatrix)</span>
+<span id="cb6-15"><a href="#cb6-15" tabindex="-1"></a>Y <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(ymatrix)</span>
+<span id="cb6-16"><a href="#cb6-16" tabindex="-1"></a></span>
+<span id="cb6-17"><a href="#cb6-17" tabindex="-1"></a><span class="co"># 设置常数</span></span>
+<span id="cb6-18"><a href="#cb6-18" tabindex="-1"></a>c <span class="ot">&lt;-</span> <span class="fl">0.05</span></span>
+<span id="cb6-19"><a href="#cb6-19" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">nrow</span>(X)</span>
+<span id="cb6-20"><a href="#cb6-20" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">ncol</span>(X)</span>
+<span id="cb6-21"><a href="#cb6-21" tabindex="-1"></a></span>
+<span id="cb6-22"><a href="#cb6-22" tabindex="-1"></a><span class="co"># 确保 X 中没有缺失值</span></span>
+<span id="cb6-23"><a href="#cb6-23" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">any</span>(<span class="fu">is.na</span>(X), <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) {</span>
+<span id="cb6-24"><a href="#cb6-24" tabindex="-1"></a>  <span class="fu">stop</span>(<span class="st">&quot;X matrix contains missing values!&quot;</span>)</span>
+<span id="cb6-25"><a href="#cb6-25" tabindex="-1"></a>}</span>
+<span id="cb6-26"><a href="#cb6-26" tabindex="-1"></a></span>
+<span id="cb6-27"><a href="#cb6-27" tabindex="-1"></a><span class="co"># 中心化设计矩阵和响应变量，并确保结果中没有缺失值</span></span>
+<span id="cb6-28"><a href="#cb6-28" tabindex="-1"></a>X_centered <span class="ot">&lt;-</span> <span class="fu">design_matrix</span>(X, c)</span>
+<span id="cb6-29"><a href="#cb6-29" tabindex="-1"></a>X_centered[<span class="fu">is.na</span>(X_centered)] <span class="ot">&lt;-</span> <span class="dv">0</span>  <span class="co"># 替换缺失值为0</span></span>
+<span id="cb6-30"><a href="#cb6-30" tabindex="-1"></a></span>
+<span id="cb6-31"><a href="#cb6-31" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">any</span>(<span class="fu">is.na</span>(X_centered), <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) {</span>
+<span id="cb6-32"><a href="#cb6-32" tabindex="-1"></a>  <span class="fu">stop</span>(<span class="st">&quot;X_centered contains missing values!&quot;</span>)</span>
+<span id="cb6-33"><a href="#cb6-33" tabindex="-1"></a>}</span>
+<span id="cb6-34"><a href="#cb6-34" tabindex="-1"></a></span>
+<span id="cb6-35"><a href="#cb6-35" tabindex="-1"></a>Y_centered <span class="ot">&lt;-</span> <span class="fu">response_variable</span>(Y, c)</span>
+<span id="cb6-36"><a href="#cb6-36" tabindex="-1"></a>Y_centered[<span class="fu">is.na</span>(Y_centered)] <span class="ot">&lt;-</span> <span class="dv">0</span>  <span class="co"># 替换缺失值为0</span></span>
+<span id="cb6-37"><a href="#cb6-37" tabindex="-1"></a></span>
+<span id="cb6-38"><a href="#cb6-38" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">any</span>(<span class="fu">is.na</span>(Y_centered), <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) {</span>
+<span id="cb6-39"><a href="#cb6-39" tabindex="-1"></a>  <span class="fu">stop</span>(<span class="st">&quot;Y_centered contains missing values!&quot;</span>)</span>
+<span id="cb6-40"><a href="#cb6-40" tabindex="-1"></a>}</span>
+<span id="cb6-41"><a href="#cb6-41" tabindex="-1"></a></span>
+<span id="cb6-42"><a href="#cb6-42" tabindex="-1"></a><span class="co"># 计算辅助矩阵并检查</span></span>
+<span id="cb6-43"><a href="#cb6-43" tabindex="-1"></a>H <span class="ot">&lt;-</span> <span class="fu">auxiliary_matrix_H</span>(c, n)</span>
+<span id="cb6-44"><a href="#cb6-44" tabindex="-1"></a>H[<span class="fu">is.na</span>(H)] <span class="ot">&lt;-</span> <span class="dv">0</span>  <span class="co"># 替换缺失值为0</span></span>
+<span id="cb6-45"><a href="#cb6-45" tabindex="-1"></a></span>
+<span id="cb6-46"><a href="#cb6-46" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">any</span>(<span class="fu">is.na</span>(H), <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) {</span>
+<span id="cb6-47"><a href="#cb6-47" tabindex="-1"></a>  <span class="fu">stop</span>(<span class="st">&quot;Matrix H contains missing values!&quot;</span>)</span>
+<span id="cb6-48"><a href="#cb6-48" tabindex="-1"></a>}</span>
+<span id="cb6-49"><a href="#cb6-49" tabindex="-1"></a></span>
+<span id="cb6-50"><a href="#cb6-50" tabindex="-1"></a>Q <span class="ot">&lt;-</span> <span class="fu">auxiliary_matrix_Q</span>(m)</span>
+<span id="cb6-51"><a href="#cb6-51" tabindex="-1"></a>Q[<span class="fu">is.na</span>(Q)] <span class="ot">&lt;-</span> <span class="dv">0</span>  <span class="co"># 替换缺失值为0</span></span>
+<span id="cb6-52"><a href="#cb6-52" tabindex="-1"></a></span>
+<span id="cb6-53"><a href="#cb6-53" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">any</span>(<span class="fu">is.na</span>(Q), <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) {</span>
+<span id="cb6-54"><a href="#cb6-54" tabindex="-1"></a>  <span class="fu">stop</span>(<span class="st">&quot;Matrix Q contains missing values!&quot;</span>)</span>
+<span id="cb6-55"><a href="#cb6-55" tabindex="-1"></a>}</span>
+<span id="cb6-56"><a href="#cb6-56" tabindex="-1"></a></span>
+<span id="cb6-57"><a href="#cb6-57" tabindex="-1"></a><span class="co"># 检查 rank_XTHXQ</span></span>
+<span id="cb6-58"><a href="#cb6-58" tabindex="-1"></a>rank_XTHXQ <span class="ot">&lt;-</span> <span class="fu">rank_of_XTHXQ</span>(X_centered, H, Q)</span>
+<span id="cb6-59"><a href="#cb6-59" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Rank of XTHXQ: &quot;</span>, rank_XTHXQ, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span></code></pre></div>
+<pre><code>## Rank of XTHXQ:  70</code></pre>
 
 
 

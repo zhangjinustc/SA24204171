@@ -17,3 +17,4 @@ VignetteBuilder: knitr
 Roxygen: list(markdown = TRUE)
 URL: http://github.com/zhangjinustc/SA24204171
 BugReports: http://github.com/zhangjinustc/SA24204171/issues
+Data: inst/data/Designmatrix.rds, inst/data/Responsevariable.rds
